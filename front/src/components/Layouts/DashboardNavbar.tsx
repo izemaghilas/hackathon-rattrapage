@@ -6,13 +6,11 @@ import {
   Toolbar,
   useMediaQuery,
 } from "@mui/material";
-import { H2 } from "../Typography";
-import { TitleContext } from "../../contexts/TitleContext";
 import { FC, useContext } from "react";
+import { TitleContext } from "../../contexts/TitleContext";
+import { H2 } from "../Typography";
 import LanguagePopover from "./popovers/LanguagePopover";
-import NotificationsPopover from "./popovers/NotificationsPopover";
 import ProfilePopover from "./popovers/ProfilePopover";
-import ServicePopover from "./popovers/ServicePopover";
 
 // root component interface
 interface DashboardNavBarProps {
@@ -101,13 +99,13 @@ const DashboardNavbar: FC<DashboardNavBarProps> = ({
 
         <Box flexGrow={1} ml={1} />
 
-        {upSm && (
+        {/* {upSm && (
           <>
             <LanguagePopover />
             <NotificationsPopover />
             <ServicePopover />
           </>
-        )}
+        )} */}
         <ProfilePopover />
       </StyledToolBar>
     </DashboardNavbarRoot>

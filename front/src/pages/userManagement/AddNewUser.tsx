@@ -55,7 +55,7 @@ const SwitchWrapper = styled(Box)(() => ({
 
 const AddNewUser: FC = () => {
   // change navbar title
-  useTitle("Add New User");
+  useTitle("Ajouter un Consultant");
 
   const initialValues = {
     fullName: "",

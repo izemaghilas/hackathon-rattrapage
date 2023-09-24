@@ -1,9 +1,8 @@
-import AuthGuard from "./components/authentication/AuthGuard";
+import { FC, lazy, LazyExoticComponent, Suspense } from "react";
+import { Navigate } from "react-router-dom";
 import GuestGuard from "./components/authentication/GuestGuard";
 import DashboardLayout from "./components/Layouts/DashboardLayout";
 import LoadingScreen from "./components/LoadingScreen";
-import { FC, lazy, LazyExoticComponent, Suspense } from "react";
-import { Navigate } from "react-router-dom";
 
 const Loadable = (Component: LazyExoticComponent<FC>) => (props: any) =>
   (
@@ -74,9 +73,10 @@ const routes = [
   {
     path: "dashboard",
     element: (
-      <AuthGuard>
+      // <AuthGuard>
+      //   <DashboardLayout />
+      // </AuthGuard>
         <DashboardLayout />
-      </AuthGuard>
     ),
     children: [
       {
@@ -92,10 +92,10 @@ const routes = [
         path: "user-list",
         element: <UserList />,
       },
-      {
-        path: "user-grid",
-        element: <UserGrid />,
-      },
+      // {
+      //   path: "user-grid",
+      //   element: <UserGrid />,
+      // },
       {
         path: "add-user",
         element: <AddNewUser />,
