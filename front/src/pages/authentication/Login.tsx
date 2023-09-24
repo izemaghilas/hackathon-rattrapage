@@ -31,20 +31,20 @@ const Login: FC = () => {
   let navigate = useNavigate();
 
   const initialValues = {
-    email: "demo@example.com",
-    password: "v&)3?2]:",
+    email: "admin@example.com",
+    password: "password",
     submit: null,
     remember: true,
   };
   // form field value validation schema
   const validationSchema = Yup.object().shape({
     email: Yup.string()
-      .email("Must be a valid email")
+      .email("Veuillez saisir un email valide")
       .max(255)
-      .required("Email is required"),
+      .required("Un email est requis"),
     password: Yup.string()
-      .min(6, "Password should be of minimum 6 characters length")
-      .required("Password is required"),
+      .min(6, "Le mot de passe doit contenir au moins 6 caractères")
+      .required("Un mot de passe est requis"),
   });
 
   const { errors, values, touched, handleBlur, handleChange, handleSubmit } =
@@ -66,6 +66,11 @@ const Login: FC = () => {
       },
     });
 
+  const boutonStyle = {
+  backgroundColor: 'black', 
+  color: 'white'
+};
+
   return (
     <FlexBox
       sx={{
@@ -80,36 +85,15 @@ const Login: FC = () => {
           alignItems="center"
           flexDirection="column"
           justifyContent="center"
-          mb={5}
+          mb={1}
         >
-          <Box width={38} mb={1}>
+          <Box width={270} mb={1}>
             <img src="/static/logo/logo.svg" width="100%" alt="Uko Logo" />
           </Box>
-          <H1 fontSize={24} fontWeight={700}>
-            Sign In to Uko
-          </H1>
         </FlexBox>
 
         <FlexBox justifyContent="space-between" flexWrap="wrap" my="1rem">
-          <SocialIconButton
-            // onClick={loginWithGoogle}
-            startIcon={<GoogleIcon sx={{ mr: 1 }} />}
-          >
-            Sign in with Google
-          </SocialIconButton>
-          <SocialIconButton
-            // onClick={loginWithFacebook}
-            startIcon={<FacebookIcon sx={{ mr: 1 }} />}
-          >
-            Sign in with Facebook
-          </SocialIconButton>
-
-          <Divider sx={{ my: 3, width: "100%", alignItems: "flex-start" }}>
-            <H3 color="text.disabled" px={1}>
-              Or
-            </H3>
-          </Divider>
-
+      
           <form noValidate onSubmit={handleSubmit} style={{ width: "100%" }}>
             <FlexBox justifyContent="space-between" flexWrap="wrap">
               <TextFieldWrapper>
@@ -130,7 +114,7 @@ const Login: FC = () => {
 
               <TextFieldWrapper>
                 <Paragraph fontWeight={600} mb={1}>
-                  Password
+                  Mot de Passe
                 </Paragraph>
                 <LightTextField
                   fullWidth
@@ -146,20 +130,6 @@ const Login: FC = () => {
             </FlexBox>
 
             <FlexBox mt={2} alignItems="center" justifyContent="space-between">
-              <FormControlLabel
-                control={
-                  <Switch
-                    name="remember"
-                    checked={values.remember}
-                    onChange={handleChange}
-                  />
-                }
-                label="Remember Me"
-                sx={{ "& .MuiTypography-root": { fontWeight: 600 } }}
-              />
-              <Link to="/forget-password">
-                <Small color="secondary.red">Forgot Password?</Small>
-              </Link>
             </FlexBox>
 
             {error && (
@@ -179,20 +149,20 @@ const Login: FC = () => {
             <Box sx={{ mt: 4 }}>
               {loading ? (
                 <LoadingButton loading fullWidth variant="contained">
-                  Sign In
+                  Connexion
                 </LoadingButton>
               ) : (
-                <Button fullWidth type="submit" variant="contained">
-                  Sign In
+                <Button fullWidth type="submit" variant="contained" style={boutonStyle}>
+                  Connexion
                 </Button>
               )}
             </Box>
           </form>
 
           <Small margin="auto" mt={3} color="text.disabled">
-            Don't have an account?{" "}
+            Vous n'avez pas encore de compte?{" "}
             <Link to="/register">
-              <Small color="primary.main">Create an account</Small>
+              <Small color="primary.main">Créer un compte </Small>
             </Link>
           </Small>
         </FlexBox>
