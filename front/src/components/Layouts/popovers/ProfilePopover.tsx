@@ -7,6 +7,7 @@ import { FC, Fragment, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import PopoverLayout from "./PopoverLayout";
+import Icons from "../../../icons/sidebar";
 
 // styled components
 const StyledSmall = styled(Small)(({ theme }) => ({
@@ -51,10 +52,11 @@ const ProfilePopover: FC = () => {
             },
           }}
         >
-          <UkoAvatar
-            src={user?.avatar || "/static/avatar/001-man.svg"}
+          {/* <UkoAvatar
+            src={user?.avatar || "/static/avatar/avatar.svg"}
             sx={{ width: 30, height: 30, ml: 1 }}
-          />
+          /> */}
+          <Icons.UserProfileIcon color="primary" />
         </Badge>
       </ButtonBase>
 
@@ -67,10 +69,11 @@ const ProfilePopover: FC = () => {
         popoverClose={() => setOpen(false)}
         title={
           <FlexBox alignItems="center">
-            <UkoAvatar
-              src={user?.avatar || "/static/avatar/001-man.svg"}
+            {/* <UkoAvatar
+              src={user?.avatar || "/static/avatar/avatar.svg"}
               sx={{ width: 35, height: 35 }}
-            />
+            /> */}
+            <Icons.UserProfileIcon color="primary" sx={{ width: 35, height: 35 }} />
 
             <Box ml={1}>
               <H6>{user?.name}</H6>
@@ -85,13 +88,7 @@ const ProfilePopover: FC = () => {
           <StyledSmall
             onClick={() => handleMenuItem("/dashboard/user-profile")}
           >
-            Set Status
-          </StyledSmall>
-
-          <StyledSmall
-            onClick={() => handleMenuItem("/dashboard/user-profile")}
-          >
-            Profile & Account
+            Profil & Compte
           </StyledSmall>
 
           <Divider sx={{ my: 1 }} />
@@ -102,7 +99,7 @@ const ProfilePopover: FC = () => {
               toast.error("You Logout Successfully");
             }}
           >
-            Sign Out
+            Déconnexion
           </StyledSmall>
         </Box>
       </PopoverLayout>
