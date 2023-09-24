@@ -1,3 +1,4 @@
+import AuthGuard from "./components/authentication/AuthGuard";
 import { FC, lazy, LazyExoticComponent, Suspense } from "react";
 import { Navigate } from "react-router-dom";
 import GuestGuard from "./components/authentication/GuestGuard";
@@ -73,10 +74,10 @@ const routes = [
   {
     path: "dashboard",
     element: (
-      // <AuthGuard>
-      //   <DashboardLayout />
-      // </AuthGuard>
+      <AuthGuard>
         <DashboardLayout />
+      </AuthGuard>
+        // <DashboardLayout />
     ),
     children: [
       {

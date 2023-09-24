@@ -44,6 +44,8 @@ type JWTAuthPayload = {
 type JWTActions = ActionMap<JWTAuthPayload>[keyof ActionMap<JWTAuthPayload>];
 // ================================================
 
+const API_URL = "http://127.0.0.1:8000"
+
 const initialState: AuthState = {
   isAuthenticated: false,
   isInitialized: false,
@@ -123,18 +125,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const login = async (email: string, password: string) => {
-    const response = await axios.post("/api/auth/login", {
+    let response = await axios.post(API_URL + "/auth/login", {
       email,
       password,
     });
     //@ts-ignore
-    const { accessToken, user } = response.data;
+    const { access_token: accessToken } = response.data;
+    response = await axios.get(API_URL + "/users/current", {
+      headers: {
+        Authorization: "Bearer " + accessToken
+      }
+    });
 
     setSession(accessToken);
     dispatch({
       type: Types.Login,
       payload: {
-        user,
+        user: response.data as AuthUser,
       },
     });
   };
@@ -175,14 +182,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await axios.get("/api/auth/profile");
-          //@ts-ignore
-          const { user } = response.data;
+          const response = await axios.get(API_URL + "/users/current", {
+            headers: {
+              Authorization: "Bearer " + accessToken
+            }
+          });
 
           dispatch({
             type: Types.Init,
             payload: {
-              user,
+              user: response.data as AuthUser,
               isAuthenticated: true,
             },
           });

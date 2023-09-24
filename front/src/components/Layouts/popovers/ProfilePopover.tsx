@@ -76,7 +76,7 @@ const ProfilePopover: FC = () => {
             <Icons.UserProfileIcon color="primary" sx={{ width: 35, height: 35 }} />
 
             <Box ml={1}>
-              <H6>{user?.name}</H6>
+              <H6>{user?.lastname?.toUpperCase() + " " + user?.firstname}</H6>
               <Tiny display="block" fontWeight={500} color="text.disabled">
                 {user?.email}
               </Tiny>
