@@ -31,11 +31,11 @@ const index = [
   //   Icon: Icons.AddUserIcon,
   //   path: "/dashboard/add-user",
   // },
-  {
-    title: "Déconnexion",
-    Icon: Icons.LoginIcon,
-    path: "/login",
-  },
+  // {
+  //   title: "Déconnexion",
+  //   Icon: Icons.LoginIcon,
+  //   path: "/login",
+  // },
   // {
   //   title: "Register",
   //   Icon: Icons.SessionsIcon,

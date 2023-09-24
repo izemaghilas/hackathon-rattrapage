@@ -23,6 +23,7 @@ import { UsersService } from './users.service';
 import { Entities } from 'src/entity.enum';
 import { UserRole } from './userRole.enum';
 import { UpdateUserDto } from './userDto/update-users.dto';
+import { LoggedInUser } from 'src/loggedin-user.decorator';
 
 @Controller('users')
 @UseInterceptors(UsersInterceptor)
@@ -34,6 +35,11 @@ export class UsersController {
   @Roles(UserRole.ADMIN)
   async getUsers(@Query() query): Promise<User[]> {
     return this.userService.getUsers(query);
+  }
+
+  @Get('current')
+  async getLoggedinUser(@LoggedInUser() user: User) {
+    return user;
   }
 
   @Get(':id')
