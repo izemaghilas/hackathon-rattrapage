@@ -20,11 +20,6 @@ const UserListColumnShape = [
   {
     Header: "Poste",
     accessor: "jobTitle",
-    minWidth: 150,
-  },
-  {
-    Header: "Role",
-    accessor: "role",
     minWidth: 200,
     Cell: ({ value }: any) => (
       <Small
