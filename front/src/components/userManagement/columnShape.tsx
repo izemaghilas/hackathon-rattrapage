@@ -1,6 +1,5 @@
 import FlexBox from "../FlexBox";
-import { H6, Small, Tiny } from "../Typography";
-import UkoAvatar from "../UkoAvatar";
+import { Small } from "../Typography";
 
 const UserListColumnShape = [
   {

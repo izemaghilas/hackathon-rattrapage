@@ -37,7 +37,7 @@ const UserList: FC = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    api.getUsers()
+    api.getUsersOnly()
       .then((response) => {
         setUsers(response.data as any);
       });
