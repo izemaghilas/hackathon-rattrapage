@@ -5,8 +5,10 @@ import UserListColumnShape from "../../components/userManagement/columnShape";
 import CustomTable from "../../components/userManagement/CustomTable";
 import { userListFakeData } from "../../components/userManagement/fakeData";
 import useTitle from "../../hooks/useTitle";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useApi from "../../hooks/useApi";
+import { set } from "nprogress";
 
 // styled component
 const StyledFlexBox = styled(FlexBox)(({ theme }) => ({
@@ -28,8 +30,17 @@ const UserList: FC = () => {
   // change navbar title
   useTitle("Consultants");
 
+  const api = useApi();
+
   const navigate = useNavigate();
   const handleAddUser = () => navigate("/dashboard/add-user");
+  const [users, setUsers] = useState([]);
+
+  api.getUsers()
+    .then((response) => {
+      setUsers(response.data);
+    });
+
 
   return (
     <Box pt={2} pb={4}>
@@ -40,7 +51,7 @@ const UserList: FC = () => {
         </Button>
       </StyledFlexBox>
 
-      <CustomTable columnShape={UserListColumnShape} data={userListFakeData} />
+      <CustomTable columnShape={UserListColumnShape} data={users} />
     </Box>
   );
 };
