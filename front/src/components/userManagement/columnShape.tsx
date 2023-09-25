@@ -1,28 +1,25 @@
 import FlexBox from "../FlexBox";
-import { H6, Small, Tiny } from "../Typography";
-import UkoAvatar from "../UkoAvatar";
+import { Small } from "../Typography";
 
 const UserListColumnShape = [
   {
-    Header: "Name",
-    accessor: "name",
-    minWidth: 200,
-    Cell: ({ row }: any) => {
-      const { avatar, name, address } = row.original;
-      return (
-        <FlexBox alignItems="center">
-          <UkoAvatar src={avatar} />
-          <FlexBox flexDirection="column" ml={1}>
-            <H6 color="text.primary">{name}</H6>
-            <Tiny color="text.disabled">{address}</Tiny>
-          </FlexBox>
-        </FlexBox>
-      );
-    },
+    Header: "Nom",
+    accessor: "lastname",
+    minWidth: 150,
   },
   {
-    Header: "Role",
-    accessor: "role",
+    Header: "Prénom",
+    accessor: "firstname",
+    minWidth: 150,
+  },
+  {
+    Header: "Email",
+    accessor: "email",
+    minWidth: 150,
+  },
+  {
+    Header: "Poste",
+    accessor: "jobTitle",
     minWidth: 200,
     Cell: ({ value }: any) => (
       <Small
@@ -38,20 +35,26 @@ const UserListColumnShape = [
     ),
   },
   {
-    Header: "Company",
-    accessor: "company",
+    Header: "Equipe",
+    accessor: "team.teamName",
     minWidth: 150,
   },
   {
-    Header: "Project",
-    accessor: "project",
+    Header: "Skills",
+    accessor: "skills",
     minWidth: 150,
-  },
-  {
-    Header: "Verified",
-    accessor: "verified",
-    minWidth: 100,
-    maxWidth: 100,
+    Cell: ({ row }: any) => {
+      return (
+        <FlexBox alignItems="center">
+          {
+            row.original.skills.map((skill: any) => (
+              skill.name
+            )).join(', ')
+          }
+        </FlexBox>
+          
+      );
+    },
   },
 ];
 

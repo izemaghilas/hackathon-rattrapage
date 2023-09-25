@@ -37,6 +37,13 @@ export class UsersController {
     return this.userService.getUsers(query);
   }
 
+  @Get('/users-only')
+  // @Roles(UserRole.ADMIN)
+  async getUsersOnly(@Query() query): Promise<User[]> {
+    const allUsers = this.userService.getUsers(query);
+    return (await allUsers).filter((user) => user.role === UserRole.USER);
+  }
+
   @Get('current')
   async getLoggedinUser(@LoggedInUser() user: User) {
     return user;

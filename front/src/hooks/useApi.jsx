@@ -64,6 +64,13 @@ export default function useApi() {
         );
     }
 
+    function getUsersOnly(selectedFilter, searchInput) {
+        return apiClient.get(
+            `users/users-only?skill=${selectedFilter ?? ""}&search=${searchInput ?? ""}`,
+            token
+        );
+    }
+
     function getUser(id) {
         return apiClient.get(`users/${id}`, token);
     }
@@ -105,6 +112,7 @@ export default function useApi() {
         login,
         getLoggedInUser,
         getUsers,
+        getUsersOnly,
         getUser,
         addUser,
         updateUser,
