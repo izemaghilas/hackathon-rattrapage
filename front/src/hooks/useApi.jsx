@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import useAuth from "./useAuth";
 
 const axiosInstance = axios.create({
-    baseURL: import.meta.env.REACT_APP_BACKEND_URL,
+    baseURL: 'http://localhost:8000',
 });
 
 function getRequestHeaders(token = null, withBody = false) {
@@ -43,10 +43,10 @@ const apiClient = {
 
 export default function useApi() {
     const { user } = useAuth();
-    const [token, setToken] = useState(() => user?.token);
+    const [token, setToken] = useState(() => localStorage.getItem("accessToken"));
 
     useEffect(() => {
-        setToken(user?.token);
+        setToken(localStorage.getItem("accessToken"));
     }, [user]);
 
     function login(email, password) {
