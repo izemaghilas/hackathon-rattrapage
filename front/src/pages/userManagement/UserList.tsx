@@ -35,25 +35,36 @@ const UserList: FC = () => {
   const navigate = useNavigate();
   const handleAddUser = () => navigate("/dashboard/add-user");
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
     api.getUsersOnly()
       .then((response) => {
         setUsers(response.data as any);
+        setFilteredUsers(response.data as any);
       });
   }, []);
+
+  const handleSearch = (event: any) => {
+    const searchValue = event.target.value;
+    const filteredUsers = users.filter((user: any) => {
+      const lastname = user.lastname;
+      return lastname.toLowerCase().includes(searchValue.toLowerCase());
+    });
+    setFilteredUsers(filteredUsers);
+  };
 
 
   return (
     <Box pt={2} pb={4}>
       <StyledFlexBox>
-        <SearchInput placeholder="Recherche d'un consultant..." />
+        <SearchInput onChange={handleSearch} placeholder="Recherche d'un utilisateur..." />
         <Button variant="contained" onClick={handleAddUser}>
           Ajouter un Consultant
         </Button>
       </StyledFlexBox>
 
-      <CustomTable columnShape={UserListColumnShape} data={users} />
+      <CustomTable columnShape={UserListColumnShape} data={filteredUsers} />
     </Box>
   );
 };

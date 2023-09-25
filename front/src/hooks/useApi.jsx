@@ -66,7 +66,7 @@ export default function useApi() {
 
     function getUsersOnly(selectedFilter, searchInput) {
         return apiClient.get(
-            `users/users-only/?skill=${selectedFilter ?? ""}&search=${searchInput ?? ""}`,
+            `users/users-only?skill=${selectedFilter ?? ""}&search=${searchInput ?? ""}`,
             token
         );
     }
