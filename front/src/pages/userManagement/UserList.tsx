@@ -48,8 +48,8 @@ const UserList: FC = () => {
   const handleSearch = (event: any) => {
     const searchValue = event.target.value;
     const filteredUsers = users.filter((user: any) => {
-      const lastname = user.lastname;
-      return lastname.toLowerCase().includes(searchValue.toLowerCase());
+      const fullname = `${user.firstname} ${user.lastname}`;
+      return fullname.toLowerCase().includes(searchValue.toLowerCase());
     });
     setFilteredUsers(filteredUsers);
   };
