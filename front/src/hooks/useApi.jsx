@@ -108,6 +108,18 @@ export default function useApi() {
         return apiClient.delete(`events/${id}`, token);
     }
 
+    function getTrainings() {
+        return apiClient.get("trainings", token)
+    }
+
+    function getUserTrainings() {
+        return apiClient.get("trainings/users/current", token)
+    }
+
+    function addTraining(data) {
+        return apiClient.post("trainings", {...data}, token)
+    }
+
     return {
         login,
         getLoggedInUser,
@@ -122,5 +134,8 @@ export default function useApi() {
         addEvent,
         updateEvent,
         deleteEvent,
+        getTrainings,
+        getUserTrainings,
+        addTraining,
     };
 }

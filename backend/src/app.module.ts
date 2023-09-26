@@ -9,9 +9,10 @@ import { UsersModule } from './users/users.module';
 import { TeamsModule } from './teams/teams.module';
 import { EventsModule } from './events/events.module';
 import { SkillsModule } from './skills/skills.module';
+import { TrainingsModule } from './trainings/trainings.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, JwtModule, SkillsModule, EventsModule, TeamsModule],
+  imports: [UsersModule, AuthModule, JwtModule, SkillsModule, EventsModule, TeamsModule, TrainingsModule],
   // controllers: [AppController, AuthController],
   providers: [PrismaClient, JwtService, PrismaService, AuthService],
 })
