@@ -1,5 +1,5 @@
 import { Role } from '@prisma/client';
-import { IsDefined, IsEmail, IsNotEmpty } from 'class-validator';
+import { ArrayNotEmpty, IsDefined, IsEmail, IsNotEmpty } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -23,7 +23,6 @@ export class CreateUserDto {
   @IsDefined()
   password: string;
 
-  @IsNotEmpty()
-  @IsDefined()
-  role: Role;
+  @ArrayNotEmpty()
+  skills: string[]
 }

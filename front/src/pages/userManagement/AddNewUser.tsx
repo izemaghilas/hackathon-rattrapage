@@ -1,20 +1,28 @@
-import { PhotoCamera } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import {
   alpha,
   Box,
   Button,
   Card,
+  FormControl,
+  FormHelperText,
   Grid,
-  IconButton,
-  styled,
-  Switch,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  SelectProps,
+  styled
 } from "@mui/material";
-import LightTextField from "../../components/LightTextField";
-import { Small, Tiny } from "../../components/Typography";
 import { useFormik } from "formik";
-import useTitle from "../../hooks/useTitle";
-import { FC } from "react";
+import { FC, useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import LightTextField from "../../components/LightTextField";
+import { H4, Small } from "../../components/Typography";
+import useApi from "../../hooks/useApi";
+import useTitle from "../../hooks/useTitle";
 
 // styled components
 const ButtonWrapper = styled(Box)(({ theme }) => ({
@@ -53,243 +61,242 @@ const SwitchWrapper = styled(Box)(() => ({
   marginTop: 10,
 }));
 
+const definedSkills = [
+  "Javascript",
+  "PHP",
+  "React",
+  "Vue",
+  "Angular",
+  "Symfony",
+  "Nest",
+  "Docker",
+  "Terraform",
+]
+
 const AddNewUser: FC = () => {
   // change navbar title
   useTitle("Ajouter un Consultant");
+  const [loading, setLoading] = useState(false);
+  const api = useApi()
+  const navigate = useNavigate();
+  const [skills, setSkills] = useState<string[]>([])
 
   const initialValues = {
-    fullName: "",
+    lastname: "",
+    firstname: "",
+    jobTitle: "",
     email: "",
-    phone: "",
-    country: "",
-    state: "",
-    city: "",
-    address: "",
-    zip: "",
-    about: "",
+    password: "",
+    skills: [],
   };
 
   const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required("Name is Required!"),
-    email: Yup.string().email().required("Email is Required!"),
-    phone: Yup.number().min(8).required("Phone is Required!"),
-    country: Yup.string().required("Country is Required!"),
-    state: Yup.string().required("State is Required!"),
-    city: Yup.string().required("City is Required!"),
-    address: Yup.string().required("Address is Required!"),
-    zip: Yup.string().required("Zip is Required!"),
-    about: Yup.string().required("About is Required!"),
+    lastname: Yup.string().required("le nom est requis!"),
+    firstname: Yup.string().required("le prénom est requis!"),
+    jobTitle: Yup.string().required("l'intitulé du poste est requis!"),
+    email: Yup.string().email().required("l'adresse mail est requise!"),
+    password: Yup.string().required("le mot de passe est requis!"),
+    skills: Yup.array().min(1, "les compétences sont requises!")
   });
 
-  const { values, errors, handleChange, handleSubmit, touched } = useFormik({
+  const { values, errors, handleChange, handleSubmit, touched, setFieldValue } = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: () => {},
+    onSubmit: (values: any) => {
+      setLoading(true)
+      api.addUser(values)
+        .then(() => {
+          toast.success("Consultant ajouté")
+          navigate("/dashboard/user-list")
+        })
+        .catch(() => {
+          toast.error("Veuillez réessayer ultérieurement")
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    },
   });
+
+  const handleSelectSkill = (event: SelectChangeEvent<typeof skills>) => {
+    const {
+      target: { value },
+    } = event;
+    setSkills(
+      typeof value === 'string' ? value.split(',') : value,
+    );
+    setFieldValue("skills", typeof value === 'string' ? value.split(',') : value)
+  };
 
   return (
     <Box pt={2} pb={4}>
       <Card sx={{ padding: 4 }}>
         <Grid container spacing={3}>
-          <Grid item md={4} xs={12}>
-            <Card
-              sx={{
-                padding: 3,
-                boxShadow: 2,
-                minHeight: 400,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <ButtonWrapper>
-                <UploadButton>
-                  <label htmlFor="upload-btn">
-                    <input
-                      accept="image/*"
-                      id="upload-btn"
-                      type="file"
-                      style={{ display: "none" }}
-                    />
-                    <IconButton component="span">
-                      <PhotoCamera sx={{ fontSize: 26, color: "white" }} />
-                    </IconButton>
-                  </label>
-                </UploadButton>
-              </ButtonWrapper>
-
-              <Small
-                marginTop={2}
-                maxWidth={200}
-                lineHeight={1.9}
-                display="block"
-                textAlign="center"
-                color="text.disabled"
-              >
-                Allowed *.jpeg, *.jpg, *.png, *.gif max size of 3.1 MB
-              </Small>
-
-              <Box maxWidth={250} marginTop={5} marginBottom={1}>
-                <SwitchWrapper>
-                  <Small display="block" fontWeight={600}>
-                    Public Profile
-                  </Small>
-                  <Switch defaultChecked />
-                </SwitchWrapper>
-
-                <SwitchWrapper>
-                  <Small display="block" fontWeight={600}>
-                    Banned
-                  </Small>
-                  <Switch defaultChecked />
-                </SwitchWrapper>
-                <Tiny display="block" color="text.disabled" fontWeight={500}>
-                  Apply disable account
-                </Tiny>
-
-                <SwitchWrapper>
-                  <Small display="block" fontWeight={600}>
-                    Email Verified
-                  </Small>
-                  <Switch defaultChecked />
-                </SwitchWrapper>
-                <Tiny display="block" color="text.disabled" fontWeight={500}>
-                  Disabling this will automatically send the user a verification
-                  email
-                </Tiny>
-              </Box>
-            </Card>
-          </Grid>
           <Grid item md={8} xs={12}>
-            <Card sx={{ padding: 3, boxShadow: 2 }}>
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={3}>
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="fullName"
-                      placeholder="Full Name"
-                      value={values.fullName}
-                      onChange={handleChange}
-                      error={Boolean(touched.fullName && errors.fullName)}
-                      helperText={touched.fullName && errors.fullName}
-                    />
+            <form onSubmit={handleSubmit}>
+              <Card sx={{ padding: 3, boxShadow: 2 }}>
+                  <Grid item md={8} xs={12}>
+                    <H4>Informations Personnelles</H4>
                   </Grid>
+                  <Grid sx={{marginTop: "1px"}} container spacing={3}>
+                    <Grid item sm={6} xs={12}>
+                      <LightTextField
+                        fullWidth
+                        name="lastname"
+                        placeholder="Nom"
+                        value={values.lastname}
+                        onChange={handleChange}
+                        error={Boolean(touched.lastname && errors.lastname)}
+                        helperText={touched.lastname && errors.lastname}
+                      />
+                    </Grid>
 
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="email"
-                      placeholder="Email Address"
-                      value={values.email}
-                      onChange={handleChange}
-                      error={Boolean(touched.email && errors.email)}
-                      helperText={touched.email && errors.email}
-                    />
+                    <Grid item sm={6} xs={12}>
+                      <LightTextField
+                        fullWidth
+                        name="firstname"
+                        placeholder="Prénom"
+                        value={values.firstname}
+                        onChange={handleChange}
+                        error={Boolean(touched.firstname && errors.firstname)}
+                        helperText={touched.firstname && errors.firstname}
+                      />
+                    </Grid>
+
+                    <Grid item sm={6} xs={12}>
+                      <LightTextField
+                        fullWidth
+                        name="email"
+                        placeholder="Adresse mail"
+                        value={values.email}
+                        onChange={handleChange}
+                        error={Boolean(touched.email && errors.email)}
+                        helperText={touched.email && errors.email}
+                      />
+                    </Grid>
+
+                    <Grid item sm={6} xs={12}>
+                      <LightTextField
+                        fullWidth
+                        name="jobTitle"
+                        placeholder="Intitulé du Poste"
+                        value={values.jobTitle}
+                        onChange={handleChange}
+                        error={Boolean(touched.jobTitle && errors.jobTitle)}
+                        helperText={touched.jobTitle && errors.jobTitle}
+                      />
+                    </Grid>
+
+                    <Grid item sm={6} xs={12}>
+                      <LightTextField
+                        fullWidth
+                        name="password"
+                        placeholder="Mot de passe"
+                        type="password"
+                        onChange={handleChange}
+                        value={values.password || ""}
+                        error={Boolean(touched.password && errors.password)}
+                        helperText={touched.password && errors.password}
+                      />
+                    </Grid>
                   </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="phone"
-                      placeholder="Phone Number"
-                      value={values.phone}
-                      onChange={handleChange}
-                      error={Boolean(touched.phone && errors.phone)}
-                      helperText={touched.phone && errors.phone}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="country"
-                      placeholder="Country"
-                      value={values.country}
-                      onChange={handleChange}
-                      error={Boolean(touched.country && errors.country)}
-                      helperText={touched.country && errors.country}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="state"
-                      placeholder="State/Region"
-                      value={values.state}
-                      onChange={handleChange}
-                      error={Boolean(touched.state && errors.state)}
-                      helperText={touched.state && errors.state}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="city"
-                      placeholder="City"
-                      value={values.city}
-                      onChange={handleChange}
-                      error={Boolean(touched.city && errors.city)}
-                      helperText={touched.city && errors.city}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="address"
-                      placeholder="Address"
-                      value={values.address}
-                      onChange={handleChange}
-                      error={Boolean(touched.address && errors.address)}
-                      helperText={touched.address && errors.address}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6} xs={12}>
-                    <LightTextField
-                      fullWidth
-                      name="zip"
-                      placeholder="Zip/Code"
-                      value={values.zip}
-                      onChange={handleChange}
-                      error={Boolean(touched.zip && errors.zip)}
-                      helperText={touched.zip && errors.zip}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <LightTextField
-                      multiline
-                      fullWidth
-                      rows={10}
-                      name="about"
-                      placeholder="About"
-                      value={values.about}
-                      onChange={handleChange}
-                      error={Boolean(touched.about && errors.about)}
-                      helperText={touched.about && errors.about}
-                      sx={{
-                        "& .MuiOutlinedInput-root textarea": { padding: 0 },
-                      }}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Button type="submit" variant="contained">
-                      Create User
-                    </Button>
+              </Card>
+              
+              <Card sx={{ padding: 3, boxShadow: 2, marginTop: "2rem" }}>
+                <Grid item md={8} xs={12}>
+                  <H4>Compétences</H4>
+                  <Grid sx={{marginTop: "1rem"}} item sm={6} xs={12} md={12}>
+                      <Skill skills={skills}/>
+                      <FormControl sx={{marginTop: "1.5rem"}} fullWidth>
+                        <StyledSelect 
+                          MenuProps={MenuProps}
+                          value={skills}
+                          onChange={handleSelectSkill}
+                          multiple 
+                          fullWidth
+                          error={Boolean(touched.skills && errors.skills)}
+                        >
+                          {definedSkills.map((s, i) => <MenuItem key={i} value={s}> {s} </MenuItem>)}
+                        </StyledSelect>
+                        {touched.skills && errors.skills && <FormHelperText sx={{color: "#FD396D"}}>{errors.skills}</FormHelperText>}
+                      </FormControl>
                   </Grid>
                 </Grid>
-              </form>
-            </Card>
+              </Card>
+              
+              <Grid item xs={12} marginTop="2rem">
+                {loading ? (
+                  <LoadingButton loading variant="contained">
+                    Ajouter
+                  </LoadingButton>
+                ) : (
+                  <Button type="submit" variant="contained">
+                    Ajouter
+                  </Button>
+                )}
+              </Grid>
+            </form>
           </Grid>
+
         </Grid>
       </Card>
     </Box>
   );
+};
+
+const StyledSelect = styled(Select)<SelectProps>(({ theme }) => ({
+  "& .MuiOutlinedInput-input": {
+    fontWeight: 500,
+    color: theme.palette.text.primary,
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderRadius: "8px",
+    border: "2px solid",
+    borderColor:
+      theme.palette.mode === "light"
+        ? theme.palette.secondary[300]
+        : theme.palette.divider,
+  },
+  "& .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline": {
+    borderColor: theme.palette.secondary[300],
+  },
+}));
+
+const Skill: FC<{skills: string[]}> = ({skills}) => {
+  return (
+    <Grid 
+      sx={{marginTop: "1rem"}} 
+      container 
+      item 
+      xs={12}
+    >
+      {skills.map((skill, i)=>(
+        <Small key={i}
+          sx={{
+            borderRadius: 10,
+            padding: ".2rem 1rem",
+            color: "background.paper",
+            backgroundColor: "#00BB7E",
+            marginInline: "0.2rem",
+            marginBlock: "0.3rem",
+          }}
+        >
+          {skill}
+        </Small>
+      ))}
+    </Grid>
+  )
+}
+
+const ITEM_HEIGHT = 25;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
 };
 
 export default AddNewUser;

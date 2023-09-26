@@ -96,7 +96,7 @@ const ProfilePopover: FC = () => {
           <StyledSmall
             onClick={() => {
               logout();
-              toast.error("You Logout Successfully");
+              toast.success("Vous vous déconnectez avec succès");
             }}
           >
             Déconnexion
