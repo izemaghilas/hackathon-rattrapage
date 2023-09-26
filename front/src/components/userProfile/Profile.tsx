@@ -39,7 +39,7 @@ const Profile: FC = () => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item md={5} xs={12}>
+      <Grid item md={12} xs={12}>
         <Card>
           <FollowWrapper>
             <FlexBox alignItems="center">
@@ -90,14 +90,6 @@ const Profile: FC = () => {
             </Box>
           </Box>
         </Card>
-      </Grid>
-
-      <Grid item md={7} xs={12}>
-        {postList.map((post) => (
-          <PostCard post={post} key={post.id} handleMore={handleMoreOpen} />
-        ))}
-
-        <MoreOptions anchorEl={moreEl} handleMoreClose={handleMoreClose} />
       </Grid>
     </Grid>
   );
