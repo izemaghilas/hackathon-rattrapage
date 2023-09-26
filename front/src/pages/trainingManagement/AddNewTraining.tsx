@@ -256,7 +256,13 @@ const AddNewTraining: FC = () => {
                                     </LoadingButton>
                                 ) : (
                                     <Button
-                                        sx={{ backgroundColor: "#282B2A" }}
+                                        sx={{
+                                            backgroundColor: "#282B2A",
+                                            ":hover": {
+                                                backgroundColor: "#282B2A",
+                                                opacity: 0.9,
+                                            },
+                                        }}
                                         type="submit"
                                         variant="contained"
                                     >

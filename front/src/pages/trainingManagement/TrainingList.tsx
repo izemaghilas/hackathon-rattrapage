@@ -54,15 +54,23 @@ const TrainingList: FC = () => {
 
     return (
         <Box pt={2} pb={4}>
-            <StyledFlexBox>
-                <Button
-                    sx={{ backgroundColor: "#282B2A" }}
-                    variant="contained"
-                    onClick={handleAddTraining}
-                >
-                    Ajouter une Formation
-                </Button>
-            </StyledFlexBox>
+            {user?.role === ROLES.admin && (
+                <StyledFlexBox>
+                    <Button
+                        sx={{
+                            backgroundColor: "#282B2A",
+                            ":hover": {
+                                backgroundColor: "#282B2A",
+                                opacity: 0.9,
+                            },
+                        }}
+                        variant="contained"
+                        onClick={handleAddTraining}
+                    >
+                        Ajouter une Formation
+                    </Button>
+                </StyledFlexBox>
+            )}
 
             <CustomTable
                 columnShape={TrainingListColumnShape(

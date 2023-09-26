@@ -56,7 +56,7 @@ const ProfilePopover: FC = () => {
             src={user?.avatar || "/static/avatar/avatar.svg"}
             sx={{ width: 30, height: 30, ml: 1 }}
           /> */}
-          <Icons.UserProfileIcon color="primary" />
+          <Icons.UserProfileIcon sx={{color: "#282B2A"}} />
         </Badge>
       </ButtonBase>
 
@@ -73,7 +73,7 @@ const ProfilePopover: FC = () => {
               src={user?.avatar || "/static/avatar/avatar.svg"}
               sx={{ width: 35, height: 35 }}
             /> */}
-            <Icons.UserProfileIcon color="primary" sx={{ width: 35, height: 35 }} />
+            <Icons.UserProfileIcon sx={{ width: 35, height: 35, color: "#282B2A" }} />
 
             <Box ml={1}>
               <H6>{user?.lastname?.toUpperCase() + " " + user?.firstname}</H6>

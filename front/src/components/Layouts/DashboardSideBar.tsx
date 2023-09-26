@@ -80,7 +80,7 @@ const DashboardSideBar: FC<SideNavBarProps> = ({
               <nav.Icon
                 sx={{
                   color:
-                    active === nav.title ? "primary.main" : "secondary.400",
+                    active === nav.title ? "#282B2A" : "secondary.400",
                 }}
               />
             </StyledListItemButton>
