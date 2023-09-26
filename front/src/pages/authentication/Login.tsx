@@ -56,7 +56,7 @@ const Login: FC = () => {
         login(values.email, values.password)
           .then(() => {
             setLoading(false);
-            toast.success("You Logged In Successfully test");
+            toast.success("Vous vous êtes connecté avec succès");
             navigate("/dashboard");
           })
           .catch((error) => {
@@ -159,12 +159,12 @@ const Login: FC = () => {
             </Box>
           </form>
 
-          <Small margin="auto" mt={3} color="text.disabled">
+          {/* <Small margin="auto" mt={3} color="text.disabled">
             Vous n'avez pas encore de compte?{" "}
             <Link to="/register">
               <Small color="primary.main">Créer un compte </Small>
             </Link>
-          </Small>
+          </Small> */}
         </FlexBox>
       </Card>
     </FlexBox>

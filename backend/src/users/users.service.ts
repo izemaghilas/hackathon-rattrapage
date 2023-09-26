@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Teams, User } from '@prisma/client';
+import { SkillType, Teams, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateUserDto } from './userDto/users.dto';
 import * as bcrypt from 'bcrypt';
@@ -19,14 +19,23 @@ export class UsersService {
       data: {
         ...data,
         password: hashedPassword,
-        role: data.role,
+        role: 'USER',
         firstname: data.firstname,
         lastname: data.lastname,
         jobTitle: data.jobTitle,
         team: undefined,
-        skills: undefined,
+        skills: {
+          createMany: {
+            data: data.skills.map((skillName) => ({
+              name: skillName,
+              level: 0,
+              type: SkillType.FRONT,
+            })),
+          },
+        },
       },
     });
+
     return userData;
   }
 
