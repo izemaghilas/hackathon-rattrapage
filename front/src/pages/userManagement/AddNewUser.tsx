@@ -218,7 +218,7 @@ const AddNewUser: FC = () => {
                     Ajouter
                   </LoadingButton>
                 ) : (
-                  <Button type="submit" variant="contained">
+                  <Button sx={{ backgroundColor: "#282B2A", ":hover": { backgroundColor: "#282B2A", opacity: 0.9, } }} type="submit" variant="contained">
                     Ajouter
                   </Button>
                 )}
