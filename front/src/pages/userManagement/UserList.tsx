@@ -59,8 +59,8 @@ const UserList: FC = () => {
     <Box pt={2} pb={4}>
       <StyledFlexBox>
         <SearchInput onChange={handleSearch} placeholder="Recherche d'un utilisateur..." />
-        <Button variant="contained" onClick={handleAddUser}>
-          Ajouter un Consultant
+        <Button variant="contained" onClick={handleAddUser} style={{ backgroundColor: "black", color: "white" }}>
+          Ajouter un Consultant 
         </Button>
       </StyledFlexBox>
 

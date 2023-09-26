@@ -12,7 +12,7 @@ import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ScrollBar from "simplebar-react";
 import topMenuList from "./topMenuList";
-import useAuth from "../../hooks/useAuth";
+import { Link } from "react-router-dom";import useAuth from "../../hooks/useAuth";
 
 // root component interface
 interface SideNavBarProps {
@@ -65,8 +65,10 @@ const DashboardSideBar: FC<SideNavBarProps> = ({
   const mainSideBarContent = (
     <List sx={{ height: "100%" }}>
       <StyledListItemButton disableRipple>
-        <img src="/static/logo/logo.svg" alt="Logo" width={300} height={35} />
-      </StyledListItemButton>
+    <Link to="/dashboard">
+      <img src="/static/logo/logo.svg" alt="Logo" width={300} height={35} />
+        </Link>
+    </StyledListItemButton>
 
       <ScrollBar style={{ maxHeight: "calc(100% - 50px)" }}>
         {topMenuList(user?.role ?? '').map((nav, index) => (

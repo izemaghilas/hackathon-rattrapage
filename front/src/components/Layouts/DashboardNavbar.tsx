@@ -41,7 +41,7 @@ const ToggleIcon = styled(Box)(({ theme }) => ({
   margin: "5px",
   borderRadius: "10px",
   transition: "width 0.3s",
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: "black",
 }));
 
 // root component

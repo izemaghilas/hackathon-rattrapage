@@ -38,6 +38,15 @@ const AddNewUser = Loadable(
   lazy(() => import("./pages/userManagement/AddNewUser"))
 );
 
+const AddNewEvents = Loadable(
+  lazy(() => import("./pages/events/AddNewEvents"))
+  
+);
+
+const EventList = Loadable(
+  lazy(() => import("./pages/events/EventList"))
+);
+
 // training management
 const TrainingList = Loadable(
   lazy(() => import("./pages/trainingManagement/TrainingList"))
@@ -48,6 +57,8 @@ const AddNewTraining = Loadable(
 
 // error
 const Error = Loadable(lazy(() => import("./pages/404")));
+
+
 
 // routes
 const routes = [
@@ -83,6 +94,14 @@ const routes = [
       {
         path: "user-list",
         element: <UserList />,
+      },
+       {
+         path: "add-event",
+         element: <AddNewEvents />,
+      },
+      {
+        path: "event-list",
+        element: <EventList />,
       },
       {
         path: "add-user",
