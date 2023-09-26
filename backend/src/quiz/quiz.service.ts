@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateQuizDto } from './dto/update-quiz.dto';
+import { CreateQuizDto } from './dto/create-quiz.dto';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -25,16 +25,68 @@ export class QuizService {
     });
   }
 
-  async update(id: string, updateQuizDto: UpdateQuizDto) {
-    const { quizId, userId, questionsAndAnswers } = updateQuizDto;
+  async createUserQuiz(createQuizDto: CreateQuizDto) {
+    const { quizId, userId, questionsAndAnswers } = createQuizDto;
 
+    // Update user to quiz completed
+    const user = await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        quizCompleted: true,
+      },
+    });
+
+    // Create user quiz
+    const userQuiz = await this.prisma.userQuiz.create({
+      data: {
+        userId: userId,
+        quiz: {
+          connect: {
+            id: quizId,
+          },
+        },
+      },
+      select: {
+        id: true,
+        quizId: true,
+      },
+    });
+
+    // Create answers
     for (const questionAndAnswer of questionsAndAnswers) {
-      await this.prisma.question.updateMany({
+      await this.prisma.answer.create({
+        data: {
+          questionId: questionAndAnswer.questionId,
+          answer: questionAndAnswer.answer,
+          userId: userId,
+        },
+      });
+
+      await this.prisma.userQuiz.update({
         where: {
-          quizId: questionAndAnswer.quizId,
+          id: userQuiz.id,
         },
         data: {
-          answer: questionAndAnswer.answer,
+          quiz: {
+            update: {
+              questions: {
+                update: {
+                  where: {
+                    id: questionAndAnswer.questionId,
+                  },
+                  data: {
+                    answer: {
+                      create: {
+                        answer: questionAndAnswer.answer,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       });
     }

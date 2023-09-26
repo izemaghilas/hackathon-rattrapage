@@ -1,6 +1,10 @@
 import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
-export class UpdateQuizDto {
+export class CreateQuizDto {
+  @IsString()
+  @IsNotEmpty()
+  userId: string;
+
   @IsString()
   @IsNotEmpty()
   quizId: string;
@@ -8,8 +12,4 @@ export class UpdateQuizDto {
   @IsArray()
   @IsNotEmpty()
   questionsAndAnswers;
-
-  @IsString()
-  @IsNotEmpty()
-  userId: string;
 }
