@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import { useEffect, useState } from "react";
 import AddNewEvents from "./AddNewEvents";
-import { Link } from "react-router-dom"; 
-import  EventListColumnShape from "../../components/events/columnShapeEvents";
+import { Link } from "react-router-dom";
+import EventListColumnShape from "../../components/events/columnShapeEvents";
 import toast from "react-hot-toast";
 import { TableCell, TableBody, TableRow } from "@mui/material";
 
@@ -32,14 +32,13 @@ const StyledFlexBox = styled(FlexBox)(({ theme }) => ({
 }));
 
 const EventList: FC = () => {
-
   const backToMenu = () => {
     navigate("/dashboard/event-list");
-  }
+  };
+  useTitle("Les Évènements");
+
   // Change le titre de la navbar
-   <Link to="/dashboard/event-list">
-        useTitle("Évènements")
-    </Link>
+  <Link to="/dashboard/event-list">useTitle("Évènements")</Link>;
 
   const api = useApi();
   const navigate = useNavigate();
@@ -49,11 +48,10 @@ const EventList: FC = () => {
   const [filteredEvents, setFilteredEvents] = useState([]);
 
   useEffect(() => {
-    api.getEvents()
-      .then((response) => {
-        setEvents(response.data as any);
-        setFilteredEvents(response.data as any);
-      });
+    api.getEvents().then((response) => {
+      setEvents(response.data as any);
+      setFilteredEvents(response.data as any);
+    });
   }, []);
 
   const handleSearch = (event: any) => {
@@ -66,12 +64,16 @@ const EventList: FC = () => {
     setFilteredEvents(filteredEvents);
   };
 
-
   const handleDeleteEvent = (eventId: string) => {
-    api.deleteEvent(eventId)
+    api
+      .deleteEvent(eventId)
       .then(() => {
-        setEvents((prevEvents) => prevEvents.filter((event) => event.id !== eventId));
-        setFilteredEvents((prevFilteredEvents) => prevFilteredEvents.filter((event) => event.id !== eventId));
+        setEvents((prevEvents) =>
+          prevEvents.filter((event) => event.id !== eventId)
+        );
+        setFilteredEvents((prevFilteredEvents) =>
+          prevFilteredEvents.filter((event) => event.id !== eventId)
+        );
         toast.success("Événement supprimé avec succès");
       })
       .catch((error) => {
@@ -80,19 +82,23 @@ const EventList: FC = () => {
   };
 
   return (
-    
     <Box pt={2} pb={4}>
       <StyledFlexBox>
-        <SearchInput onChange={handleSearch} placeholder="Recherche d'un évènement..." />
-        <Button variant="contained" onClick={handleAddEvent} style={{ backgroundColor: "black", color: "white" }}>
+        <SearchInput
+          onChange={handleSearch}
+          placeholder="Recherche d'un évènement..."
+        />
+        <Button
+          variant="contained"
+          onClick={handleAddEvent}
+          style={{ backgroundColor: "black", color: "white" }}
+        >
           Ajouter un Évènement
         </Button>
       </StyledFlexBox>
-
-      <CustomTable columnShape={EventListColumnShape} data={filteredEvents} /> {/* Assurez-vous d'utiliser la colonne et la table correctes */}
-     
+      <CustomTable columnShape={EventListColumnShape} data={filteredEvents} />{" "}
+      {/* Assurez-vous d'utiliser la colonne et la table correctes */}
     </Box>
- 
   );
 };
 
