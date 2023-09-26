@@ -26,8 +26,8 @@ model User {
   Event          Event?     @relation(fields: [eventId], references: [id])
   eventId        String?
   Training       Training[]
-  quiz           Quiz?      @relation(fields: [quizId], references: [id])
-  quizId         String     @unique
+  UserQuiz       UserQuiz   @relation(fields: [userQuizId], references: [id])
+  userQuizId     String     @unique
 }
 
 model Skill {
@@ -67,20 +67,29 @@ model Training {
   userId      String
 }
 
+model UserQuiz {
+  id        String   @id @default(uuid())
+  user      User?
+  userId    String
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+  quizId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Quiz {
   id        String     @id @default(uuid())
   title     String
   questions Question[]
-  user      User?
+  UserQuiz  UserQuiz[]
 }
 
 model Question {
-  id      String   @id @default(uuid())
-  text    String
-  answer  String
-  options String[]
-  quiz    Quiz     @relation(fields: [quizId], references: [id])
-  quizId  String
+  id     String @id @default(uuid())
+  text   String
+  answer String
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+  quizId String
 }
 
 enum Role {
