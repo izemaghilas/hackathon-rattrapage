@@ -6,7 +6,7 @@ const index = (role: string) => {
     {
       title: "Evénements",
       Icon: Icons.EventIcon,
-      path: "/dashboard/user-list",
+      path: "/dashboard/event-list",
     },
     {
       title: "Formations",
