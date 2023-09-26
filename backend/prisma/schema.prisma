@@ -77,6 +77,7 @@ model Quiz {
 model Question {
   id      String   @id @default(uuid())
   text    String
+  answer  String
   options String[]
   quiz    Quiz     @relation(fields: [quizId], references: [id])
   quizId  String
