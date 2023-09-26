@@ -8,6 +8,11 @@ const index = (role: string) => {
       Icon: Icons.EventIcon,
       path: "/dashboard/user-list",
     },
+    {
+      title: "Formations",
+      Icon: Icons.TrainingIcon,
+      path: "/dashboard/training-list",
+    },
   ]
 
   if(role === ROLES.admin) {

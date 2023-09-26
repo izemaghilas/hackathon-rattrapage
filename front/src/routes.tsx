@@ -38,6 +38,14 @@ const AddNewUser = Loadable(
   lazy(() => import("./pages/userManagement/AddNewUser"))
 );
 
+// training management
+const TrainingList = Loadable(
+  lazy(() => import("./pages/trainingManagement/TrainingList"))
+);
+const AddNewTraining = Loadable(
+  lazy(() => import("./pages/trainingManagement/AddNewTraining"))
+);
+
 // error
 const Error = Loadable(lazy(() => import("./pages/404")));
 
@@ -79,6 +87,14 @@ const routes = [
       {
         path: "add-user",
         element: <AddNewUser />,
+      },
+      {
+        path: "training-list",
+        element: <TrainingList />,
+      },
+      {
+        path: "add-training",
+        element: <AddNewTraining />,
       },
     ],
   },

@@ -3,6 +3,7 @@ import {
     Login as LoginIcon,
     PersonAdd as AddUserIcon,
     CalendarMonth as EventIcon,
+    Grade as TrainingIcon,
 } from "@mui/icons-material";
 import DashboardIcon from "./Dashboard";
 import SessionsIcon from "./Sessions";
@@ -19,4 +20,5 @@ export default {
     UserProfileIcon,
     UserManagementIcon,
     EventIcon,
+    TrainingIcon,
 };

@@ -8,7 +8,6 @@ import {
   FormHelperText,
   Grid,
   MenuItem,
-  OutlinedInput,
   Select,
   SelectChangeEvent,
   SelectProps,
@@ -21,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import LightTextField from "../../components/LightTextField";
 import { H4, Small } from "../../components/Typography";
+import { SKILLS } from "../../constants";
 import useApi from "../../hooks/useApi";
 import useTitle from "../../hooks/useTitle";
 
@@ -60,18 +60,6 @@ const SwitchWrapper = styled(Box)(() => ({
   width: "100%",
   marginTop: 10,
 }));
-
-const definedSkills = [
-  "Javascript",
-  "PHP",
-  "React",
-  "Vue",
-  "Angular",
-  "Symfony",
-  "Nest",
-  "Docker",
-  "Terraform",
-]
 
 const AddNewUser: FC = () => {
   // change navbar title
@@ -216,7 +204,7 @@ const AddNewUser: FC = () => {
                           fullWidth
                           error={Boolean(touched.skills && errors.skills)}
                         >
-                          {definedSkills.map((s, i) => <MenuItem key={i} value={s}> {s} </MenuItem>)}
+                          {SKILLS.map((s, i) => <MenuItem key={i} value={s}> {s} </MenuItem>)}
                         </StyledSelect>
                         {touched.skills && errors.skills && <FormHelperText sx={{color: "#FD396D"}}>{errors.skills}</FormHelperText>}
                       </FormControl>
