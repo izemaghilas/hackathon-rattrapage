@@ -27,7 +27,7 @@ const UserListColumnShape = [
           borderRadius: 10,
           padding: ".2rem 1rem",
           color: "background.paper",
-          backgroundColor: "#A798FF",
+          backgroundColor: "black",
         }}
       >
         {value}

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import { useEffect, useState } from "react";
 import AddNewEvents from "./AddNewEvents";
+import { Link } from "react-router-dom"; 
 import  EventListColumnShape from "../../components/events/columnShapeEvents";
 
 // styled component
@@ -29,8 +30,14 @@ const StyledFlexBox = styled(FlexBox)(({ theme }) => ({
 }));
 
 const EventList: FC = () => {
+
+  const backToMenu = () => {
+    navigate("/dashboard/event-list");
+  }
   // Change le titre de la navbar
-  useTitle("Évènements");
+   <Link to="/dashboard/event-list">
+        useTitle("Évènements")
+    </Link>
 
   const api = useApi();
   const navigate = useNavigate();
@@ -58,16 +65,18 @@ const EventList: FC = () => {
   };
 
   return (
+    
     <Box pt={2} pb={4}>
       <StyledFlexBox>
         <SearchInput onChange={handleSearch} placeholder="Recherche d'un évènement..." />
-        <Button variant="contained" onClick={handleAddEvent}>
+        <Button variant="contained" onClick={handleAddEvent} style={{ backgroundColor: "black", color: "white" }}>
           Ajouter un Évènement
         </Button>
       </StyledFlexBox>
 
       <CustomTable columnShape={EventListColumnShape} data={filteredEvents} /> {/* Assurez-vous d'utiliser la colonne et la table correctes */}
-    </Box>
+      </Box>
+ 
   );
 };
 

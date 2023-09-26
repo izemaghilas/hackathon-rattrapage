@@ -54,9 +54,17 @@ const SwitchWrapper = styled(Box)(() => ({
   marginTop: 10,
 }));
 
+
+
+
 const AddNewEvents: FC = () => {
   // change navbar title
-  useTitle("Ajouter un Évènement");
+    useTitle("Ajouter un Évènement");
+    
+    const boutonStyle = {
+  backgroundColor: 'black', 
+  color: 'white'
+};
 
   const initialValues = {
     fullName: "",
@@ -86,76 +94,8 @@ const AddNewEvents: FC = () => {
   return (
     <Box pt={2} pb={4}>
       <Card sx={{ padding: 4 }}>
-        <Grid container spacing={3}>
-          <Grid item md={4} xs={12}>
-            <Card
-              sx={{
-                padding: 3,
-                boxShadow: 2,
-                minHeight: 400,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <ButtonWrapper>
-                <UploadButton>
-                  <label htmlFor="upload-btn">
-                    <input
-                      accept="image/*"
-                      id="upload-btn"
-                      type="file"
-                      style={{ display: "none" }}
-                    />
-                    <IconButton component="span">
-                      <PhotoCamera sx={{ fontSize: 26, color: "white" }} />
-                    </IconButton>
-                  </label>
-                </UploadButton>
-              </ButtonWrapper>
-
-              <Small
-                marginTop={2}
-                maxWidth={200}
-                lineHeight={1.9}
-                display="block"
-                textAlign="center"
-                color="text.disabled"
-              >
-                Allowed *.jpeg, *.jpg, *.png, *.gif max size of 3.1 MB
-              </Small>
-
-              <Box maxWidth={250} marginTop={5} marginBottom={1}>
-                <SwitchWrapper>
-                  <Small display="block" fontWeight={600}>
-                    Public Profile
-                  </Small>
-                  <Switch defaultChecked />
-                </SwitchWrapper>
-
-                <SwitchWrapper>
-                  <Small display="block" fontWeight={600}>
-                    Banned
-                  </Small>
-                  <Switch defaultChecked />
-                </SwitchWrapper>
-                <Tiny display="block" color="text.disabled" fontWeight={500}>
-                  Apply disable account
-                </Tiny>
-
-                <SwitchWrapper>
-                  <Small display="block" fontWeight={600}>
-                    Email Verified
-                  </Small>
-                  <Switch defaultChecked />
-                </SwitchWrapper>
-                <Tiny display="block" color="text.disabled" fontWeight={500}>
-                  Disabling this will automatically send the user a verification
-                  email
-                </Tiny>
-              </Box>
-            </Card>
-          </Grid>
+  
+         
           <Grid item md={8} xs={12}>
             <Card sx={{ padding: 3, boxShadow: 2 }}>
               <form onSubmit={handleSubmit}>
@@ -166,7 +106,7 @@ const AddNewEvents: FC = () => {
                     <LightTextField
                       fullWidth
                       name="email"
-                      placeholder="Nom de l'évènement"
+                      placeholder="Titre de l'évènement"
                       value={values.email}
                       onChange={handleChange}
                       error={Boolean(touched.email && errors.email)}
@@ -195,7 +135,7 @@ const AddNewEvents: FC = () => {
                       multiline
                       fullWidth
                       rows={10}
-                      name="about"
+                      name="Description"
                       placeholder="About"
                       value={values.about}
                       onChange={handleChange}
@@ -208,15 +148,15 @@ const AddNewEvents: FC = () => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <Button type="submit" variant="contained">
-                      Create User
+                    <Button type="submit" variant="contained" style={boutonStyle}>
+                      Créer un évènement
                     </Button>
                   </Grid>
                 </Grid>
               </form>
             </Card>
           </Grid>
-        </Grid>
+     
       </Card>
     </Box>
   );
