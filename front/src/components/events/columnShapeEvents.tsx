@@ -5,41 +5,50 @@ import UkoAvatar from "../UkoAvatar";
 const EventListColumnShape = [
   {
     Header: "Nom de l'évènement",
-    accessor: "Nom de l'évènement",
-    minWidth: 200,
-    Cell: ({ row }: any) => {
-      const { avatar, name, address } = row.original;
-      return (
-        <FlexBox alignItems="center">
-          <FlexBox flexDirection="column" ml={1}>
-            <H6 color="text.primary">{name}</H6>
-          </FlexBox>
-        </FlexBox>
-      );
-    },
+    accessor: "title",
+        minWidth: 100,
+        maxWidth: 200,
+    style: {
+    textAlign: "right", // Vous pouvez remplacer "left" par "right" ou "center" selon votre préférence
   },
-  {
-    Header: "Titre",
-    accessor: "Titre",
-    minWidth: 200,
 
   },
+  
   {
     Header: "Description",
-    accessor: "Description",
-    minWidth: 150,
+    accessor: "description",
+    minWidth: 20,
+    maxWidth: 100,
   },
   {
     Header: "Date de début ",
-    accessor: "Date de début",
-    minWidth: 150,
+    accessor: "startDate",
+    minWidth: 50,
+    maxWidth: 100,
+    align: "center",
   },
   {
     Header: "Date de fin",
-    accessor: "Date de fin",
-    minWidth: 100,
+    accessor: "endDate",
+    minWidth: 50,
     maxWidth: 100,
     },
+  
+  {
+    Header: "Crée à ",
+    accessor: "createdAt",
+    minWidth: 50,
+    maxWidth: 100,
+
+    },
+  
+  {
+    Header: "Modifié à",
+    accessor: "updatedAt",
+    minWidth: 50,
+    maxWidth: 100,
+
+  },
   
 ];
 

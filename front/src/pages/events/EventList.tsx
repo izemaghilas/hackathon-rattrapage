@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import { useEffect, useState } from "react";
 import AddNewEvents from "./AddNewEvents";
+import  EventListColumnShape from "../../components/events/columnShapeEvents";
 
 // styled component
 const StyledFlexBox = styled(FlexBox)(({ theme }) => ({
@@ -27,43 +28,45 @@ const StyledFlexBox = styled(FlexBox)(({ theme }) => ({
   },
 }));
 
-
-const EventList:FC = () => {
-  // change navbar title
+const EventList: FC = () => {
+  // Change le titre de la navbar
   useTitle("Évènements");
 
+  const api = useApi();
   const navigate = useNavigate();
   const handleAddEvent = () => navigate("/dashboard/add-event");
 
-const [events, setEvents] = useState([]);
-  const [open, setOpen] = useState(false);
-    const api = useApi();
+  const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await api.getEvents();
-            setEvents(response?.data as never[]);
-          } catch (error) {
-            console.error(error);
-          }
-        };
+  useEffect(() => {
+    api.getEvents()
+      .then((response) => {
+        setEvents(response.data as any);
+        setFilteredEvents(response.data as any);
+      });
+  }, []);
 
-      fetchData();
-      console.log(event)
-    }, []); 
-
+  const handleSearch = (event: any) => {
+    const searchValue = event.target.value;
+    const filteredEvents = events.filter((event: any) => {
+      // Remplacez les propriétés par celles correspondantes dans les données d'événement
+      const eventName = event.title;
+      return eventName.toLowerCase().includes(searchValue.toLowerCase());
+    });
+    setFilteredEvents(filteredEvents);
+  };
 
   return (
     <Box pt={2} pb={4}>
       <StyledFlexBox>
-        <SearchInput placeholder="Recherche d'un évènement..." />
+        <SearchInput onChange={handleSearch} placeholder="Recherche d'un évènement..." />
         <Button variant="contained" onClick={handleAddEvent}>
           Ajouter un Évènement
         </Button>
       </StyledFlexBox>
 
-      <CustomTable columnShape={UserListColumnShape} data={userListFakeData} />
+      <CustomTable columnShape={EventListColumnShape} data={filteredEvents} /> {/* Assurez-vous d'utiliser la colonne et la table correctes */}
     </Box>
   );
 };
