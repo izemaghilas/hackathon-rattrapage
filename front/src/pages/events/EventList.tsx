@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import AddNewEvents from "./AddNewEvents";
 import { Link } from "react-router-dom"; 
 import  EventListColumnShape from "../../components/events/columnShapeEvents";
+import toast from "react-hot-toast";
+import { TableCell, TableBody, TableRow } from "@mui/material";
 
 // styled component
 const StyledFlexBox = styled(FlexBox)(({ theme }) => ({
@@ -64,6 +66,19 @@ const EventList: FC = () => {
     setFilteredEvents(filteredEvents);
   };
 
+
+  const handleDeleteEvent = (eventId: string) => {
+    api.deleteEvent(eventId)
+      .then(() => {
+        setEvents((prevEvents) => prevEvents.filter((event) => event.id !== eventId));
+        setFilteredEvents((prevFilteredEvents) => prevFilteredEvents.filter((event) => event.id !== eventId));
+        toast.success("Événement supprimé avec succès");
+      })
+      .catch((error) => {
+        toast.error("Erreur lors de la suppression de l'événement");
+      });
+  };
+
   return (
     
     <Box pt={2} pb={4}>
@@ -75,7 +90,8 @@ const EventList: FC = () => {
       </StyledFlexBox>
 
       <CustomTable columnShape={EventListColumnShape} data={filteredEvents} /> {/* Assurez-vous d'utiliser la colonne et la table correctes */}
-      </Box>
+     
+    </Box>
  
   );
 };
