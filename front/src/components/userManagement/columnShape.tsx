@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import FlexBox from "../FlexBox";
 import { Small } from "../Typography";
 
@@ -52,7 +53,17 @@ const UserListColumnShape = [
             )).join(', ')
           }
         </FlexBox>
-          
+
+      );
+    },
+  },
+  {
+    Header: "Details",
+    // accessor: "skills",
+    minWidth: 150,
+    Cell: ({ row }: any) => {
+      return (
+        <Button variant="outlined" href={`user-details/${row.original.id}`}>Détails</Button>
       );
     },
   },
