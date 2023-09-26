@@ -11,12 +11,16 @@ import EarningIcon from "../../icons/EarningIcon";
 import PeopleIcon from "../../icons/PeopleIcon";
 import WindowsLogoIcon from "../../icons/WindowsLogoIcon";
 import { FC } from "react";
+import useAuth from "../../hooks/useAuth";
+import { ROLES } from "../../constants";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const SaaS: FC = () => {
   // change navbar title
   useTitle("Saas");
-
+  const {user} = useAuth()
   const theme = useTheme();
+  const navigate = useNavigate()
 
   const cardList = [
     {
@@ -44,6 +48,12 @@ const SaaS: FC = () => {
       color: theme.palette.primary.yellow,
     },
   ];
+
+  if(user?.role === ROLES.admin) {
+    return <Navigate to="user-list" />
+  }
+
+  // TODO: navigate to events, if role user
 
   return (
     <Box pt={2} pb={4}>

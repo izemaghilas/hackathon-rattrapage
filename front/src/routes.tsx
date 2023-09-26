@@ -56,28 +56,11 @@ const routes = [
     ),
   },
   {
-    path: "register",
-    element: (
-      <GuestGuard>
-        <Register />
-      </GuestGuard>
-    ),
-  },
-  {
-    path: "forget-password",
-    element: (
-      <GuestGuard>
-        <ForgetPassword />
-      </GuestGuard>
-    ),
-  },
-  {
     path: "dashboard",
     element: (
       <AuthGuard>
         <DashboardLayout />
       </AuthGuard>
-        // <DashboardLayout />
     ),
     children: [
       {
@@ -93,10 +76,6 @@ const routes = [
         path: "user-list",
         element: <UserList />,
       },
-      // {
-      //   path: "user-grid",
-      //   element: <UserGrid />,
-      // },
       {
         path: "add-user",
         element: <AddNewUser />,

@@ -26,7 +26,7 @@ const ErrorPage: FC = () => {
         Ooops... 404!
       </H1>
       <Paragraph color="text.disabled" fontWeight="500">
-        The page you requested could not be found.
+        La page demandée est introuvable.
       </Paragraph>
 
       <NavLink
@@ -39,7 +39,7 @@ const ErrorPage: FC = () => {
           color: theme.palette.primary.main,
         }}
       >
-        Back to Dashboard
+        Retour
       </NavLink>
     </FlexBox>
   );

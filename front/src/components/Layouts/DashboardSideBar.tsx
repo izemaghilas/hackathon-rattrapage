@@ -12,6 +12,7 @@ import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ScrollBar from "simplebar-react";
 import topMenuList from "./topMenuList";
+import useAuth from "../../hooks/useAuth";
 
 // root component interface
 interface SideNavBarProps {
@@ -48,6 +49,7 @@ const DashboardSideBar: FC<SideNavBarProps> = ({
   closeMobileSideBar,
 }) => {
   const navigate = useNavigate();
+  const {user} = useAuth()
 
   const [active, setActive] = useState("Dashboard");
   const downMd = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
@@ -67,7 +69,7 @@ const DashboardSideBar: FC<SideNavBarProps> = ({
       </StyledListItemButton>
 
       <ScrollBar style={{ maxHeight: "calc(100% - 50px)" }}>
-        {topMenuList.map((nav, index) => (
+        {topMenuList(user?.role ?? '').map((nav, index) => (
           <Tooltip title={nav.title} placement="right" key={index}>
             <StyledListItemButton
               disableRipple
