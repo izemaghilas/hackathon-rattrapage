@@ -1,5 +1,5 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Card, Grid, styled, Tab } from "@mui/material";
+import { Box, Button, Card, Grid, styled, Tab, TextField } from "@mui/material";
 import FlexBox from "../components/FlexBox";
 import SearchInput from "../components/SearchInput";
 import { H3, Small } from "../components/Typography";
@@ -100,7 +100,7 @@ const UserProfile: FC = () => {
 
             <StyledTabList onChange={handleChange}>
               <StyledTab label="Profile" value="1" />
-              <StyledTab label="Friends" value="2" />
+              <StyledTab label="Paramètres" value="2" />
             </StyledTabList>
           </FlexBox>
         </StyledCard>
@@ -112,11 +112,35 @@ const UserProfile: FC = () => {
 
           <StyledTabPanel value="2">
             <Grid container spacing={3}>
-              {friends.map((item, index) => (
-                <Grid item lg={4} sm={6} xs={12} key={index}>
-                  <FollowerCard follower={item} />
-                </Grid>
-              ))}
+              <Grid item xs={12} md={12}>
+                <TextField
+                  fullWidth
+                  label="L'ancien mot de passe"
+                  type="password"
+                  defaultValue=""
+                />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <TextField
+                  fullWidth
+                  label="Nouveau mot de passe"
+                  type="password"
+                  defaultValue=""
+                />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <TextField
+                  fullWidth
+                  label="Confirmer le nouveau mot de passe"
+                  type="password"
+                  defaultValue=""
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button variant="contained" color="primary">
+                  Sauvegarder
+                </Button>
+              </Grid>
             </Grid>
           </StyledTabPanel>
 
