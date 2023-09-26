@@ -48,10 +48,10 @@ const Profile: FC = () => {
               </IconWrapper>
               <Box marginLeft={1.5}>
                 <H6 color="text.disabled" lineHeight={1}>
-                  Following
+                  Formations suivies
                 </H6>
                 <H3 lineHeight={1} mt={0.6}>
-                  93,675
+                  2
                 </H3>
               </Box>
             </FlexBox>
@@ -61,10 +61,10 @@ const Profile: FC = () => {
               </IconWrapper>
               <Box marginLeft={1.5}>
                 <H6 color="text.disabled" lineHeight={1}>
-                  Followers
+                  Evenement suivis
                 </H6>
                 <H3 lineHeight={1} mt={0.6}>
-                  82,469
+                  5
                 </H3>
               </Box>
             </FlexBox>
@@ -75,8 +75,7 @@ const Profile: FC = () => {
           <Box padding={3}>
             <H4 fontWeight={600}>About</H4>
             <Small mt={1} display="block" lineHeight={1.9}>
-              Tart I love sugar plum I love oat cake. Sweet roll caramels I love
-              jujubes. Topping cake wafer..
+              Développeur react
             </Small>
 
             <Box mt={3}>
@@ -107,35 +106,30 @@ const Profile: FC = () => {
 const details = [
   {
     Icon: Place,
-    boldText: "Kuwait",
-    smallText: "Lives at",
+    boldText: "France",
+    smallText: "",
   },
   {
-    Icon: Mail,
+    Icon: BusinessCenter,
     boldText: "",
-    smallText: "Lenore_Rosenbaum@gmail.com",
+    smallText: "5IWJ",
   },
   {
     Icon: BusinessCenter,
-    boldText: "UI_LIB",
-    smallText: "Manager at",
-  },
-  {
-    Icon: BusinessCenter,
-    smallText: "Studied at",
-    boldText: "Corwin - Blick",
+    boldText: "",
+    smallText: "5IWJ",
   },
 ];
 
 const postList = [
   {
     id: 1,
-    postTitle: "Coffee and Afternoon",
-    postImage: "/static/post-image/post-1.png",
+    postTitle: "Bonjour",
+    postImage: "",
   },
   {
     id: 2,
-    postTitle: "Coffee and Afternoon",
+    postTitle: "Test",
     postImage: "",
   },
 ];

@@ -100,9 +100,7 @@ const UserProfile: FC = () => {
 
             <StyledTabList onChange={handleChange}>
               <StyledTab label="Profile" value="1" />
-              <StyledTab label="Follower" value="2" />
-              <StyledTab label="Friends" value="3" />
-              <StyledTab label="Gallery" value="4" />
+              <StyledTab label="Friends" value="2" />
             </StyledTabList>
           </FlexBox>
         </StyledCard>
@@ -114,22 +112,9 @@ const UserProfile: FC = () => {
 
           <StyledTabPanel value="2">
             <Grid container spacing={3}>
-              {followers.map((item, index) => (
+              {friends.map((item, index) => (
                 <Grid item lg={4} sm={6} xs={12} key={index}>
                   <FollowerCard follower={item} />
-                </Grid>
-              ))}
-            </Grid>
-          </StyledTabPanel>
-
-          <StyledTabPanel value="3">
-            <H3>Friends</H3>
-            <SearchInput placeholder="Search Friends..." sx={{ my: 2 }} />
-
-            <Grid container spacing={3}>
-              {friends.map((friend, index) => (
-                <Grid item lg={4} sm={6} xs={12} key={index}>
-                  <FriendCard friend={friend} />
                 </Grid>
               ))}
             </Grid>
@@ -144,162 +129,36 @@ const UserProfile: FC = () => {
   );
 };
 
-const followers = [
-  {
-    image: "/static/avatar/040-man-11.svg",
-    name: "Mr. Breast",
-    profession: "Product Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/041-woman-11.svg",
-    name: "Ethan Drake",
-    profession: "UI Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/042-vampire.svg",
-    name: "Selena Gomez",
-    profession: "Marketing Manager",
-    following: false,
-  },
-  {
-    image: "/static/avatar/043-chef.svg",
-    name: "Sally Becker",
-    profession: "UI Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/044-farmer.svg",
-    name: "Dua Lipa",
-    profession: "Marketing Manager",
-    following: false,
-  },
-  {
-    image: "/static/avatar/045-man-12.svg",
-    name: "Joe Murry",
-    profession: "Product Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/040-man-11.svg",
-    name: "Mr. Breast",
-    profession: "Product Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/041-woman-11.svg",
-    name: "Ethan Drake",
-    profession: "UI Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/042-vampire.svg",
-    name: "Selena Gomez",
-    profession: "Marketing Manager",
-    following: false,
-  },
-  {
-    image: "/static/avatar/043-chef.svg",
-    name: "Sally Becker",
-    profession: "UI Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/044-farmer.svg",
-    name: "Dua Lipa",
-    profession: "Marketing Manager",
-    following: false,
-  },
-  {
-    image: "/static/avatar/045-man-12.svg",
-    name: "Joe Murry",
-    profession: "Product Designer",
-    following: true,
-  },
-];
-
 const friends = [
   {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
+    image: "/static/avatar/041-woman-11.svg",
+    name: "Ethan Drake",
+    profession: "UI Designer",
+    following: true,
   },
   {
+    image: "/static/avatar/042-vampire.svg",
     name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
     profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
+    following: false,
   },
   {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
+    image: "/static/avatar/043-chef.svg",
+    name: "Sally Becker",
+    profession: "UI Designer",
+    following: true,
   },
   {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
+    image: "/static/avatar/044-farmer.svg",
+    name: "Dua Lipa",
     profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
+    following: false,
   },
   {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
+    image: "/static/avatar/045-man-12.svg",
+    name: "Joe Murry",
+    profession: "Product Designer",
+    following: true,
   },
 ];
 
