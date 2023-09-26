@@ -1,165 +1,168 @@
-import { PhotoCamera } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import {
   alpha,
   Box,
   Button,
   Card,
+  FormControl,
+  FormHelperText,
   Grid,
-  IconButton,
-  styled,
-  Switch,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  SelectProps,
+  styled
 } from "@mui/material";
-import LightTextField from "../../components/LightTextField";
-import { Small, Tiny } from "../../components/Typography";
 import { useFormik } from "formik";
-import useTitle from "../../hooks/useTitle";
-import { FC } from "react";
+import { FC, useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { useState } from "react";
+import LightTextField from "../../components/LightTextField";
+import { H4 } from "../../components/Typography";
+import useApi from "../../hooks/useApi";
+import useTitle from "../../hooks/useTitle";
 
 // styled components
-const ButtonWrapper = styled(Box)(({ theme }) => ({
-  width: 100,
-  height: 100,
-  display: "flex",
-  borderRadius: "50%",
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor:
-    theme.palette.mode === "light"
-      ? theme.palette.secondary[200]
-      : alpha(theme.palette.primary[100], 0.1),
-}));
+const definedSkills = [
+  "Javascript",
+  "PHP",
+  "React",
+  "Vue",
+  "Angular",
+  "Symfony",
+  "Nest",
+  "Docker",
+  "Terraform",
+];
 
-const UploadButton = styled(Box)(({ theme }) => ({
-  width: 50,
-  height: 50,
-  display: "flex",
-  borderRadius: "50%",
-  border: "2px solid",
-  alignItems: "center",
-  justifyContent: "center",
-  borderColor: theme.palette.background.paper,
-  backgroundColor:
-    theme.palette.mode === "light"
-      ? theme.palette.secondary[400]
-      : alpha(theme.palette.background.paper, 0.9),
-}));
-
-const SwitchWrapper = styled(Box)(() => ({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  width: "100%",
-  marginTop: 10,
-}));
-
-
-
-
-const AddNewEvents: FC = () => {
+const AddNewEvent: FC = () => {
   // change navbar title
-    useTitle("Ajouter un Évènement");
-    
-    const boutonStyle = {
-  backgroundColor: 'black', 
-  color: 'white'
-};
+  useTitle("Ajouter un Événement");
+  const [loading, setLoading] = useState(false);
+  const api = useApi();
+  const navigate = useNavigate();
 
   const initialValues = {
-    fullName: "",
-    email: "",
-    zip: "",
-    about: "",
+    title: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    // createdAt: "", // Cette valeur sera générée automatiquement par la base de données
+    // updatedAt: "", // Cette valeur sera générée automatiquement par la base de données
   };
 
   const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required("Name is Required!"),
-    email: Yup.string().email().required("Email is Required!"),
-    phone: Yup.number().min(8).required("Phone is Required!"),
-    country: Yup.string().required("Country is Required!"),
-    state: Yup.string().required("State is Required!"),
-    city: Yup.string().required("City is Required!"),
-    address: Yup.string().required("Address is Required!"),
-    zip: Yup.string().required("Zip is Required!"),
-    about: Yup.string().required("About is Required!"),
+    title: Yup.string().required("Le titre de l'événement est requis!"),
+    description: Yup.string().required("La description de l'événement est requise!"),
+    startDate: Yup.date().required("La date de début de l'événement est requise!"),
+    endDate: Yup.date().required("La date de fin de l'événement est requise!"),
   });
 
-  const { values, errors, handleChange, handleSubmit, touched } = useFormik({
+  const { values, errors, handleChange, handleSubmit, touched, setFieldValue } = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: () => {},
+    onSubmit: (values: any) => {
+      setLoading(true);
+      api.addEvent(values)
+        .then(() => {
+          toast.success("Événement ajouté");
+          navigate("/dashboard/event-list");
+        })
+        .catch(() => {
+          toast.error("Veuillez réessayer ultérieurement");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
   });
+
+ 
 
   return (
     <Box pt={2} pb={4}>
       <Card sx={{ padding: 4 }}>
-  
-         
+        <Grid container spacing={3}>
           <Grid item md={8} xs={12}>
-            <Card sx={{ padding: 3, boxShadow: 2 }}>
-              <form onSubmit={handleSubmit}>
-                              <Grid container spacing={3}>
-                                  
-
-                  <Grid item sm={6} lg={12}>
+            <form onSubmit={handleSubmit}>
+              <Card sx={{ padding: 3, boxShadow: 2 }}>
+                <Grid item md={8} xs={12}>
+                  <H4>Informations de l'Événement</H4>
+                </Grid>
+                <Grid sx={{ marginTop: "1px" }} container spacing={3}>
+                  <Grid item sm={6} xs={12}>
                     <LightTextField
                       fullWidth
-                      name="email"
-                      placeholder="Titre de l'évènement"
-                      value={values.email}
+                      name="title"
+                      placeholder="Titre de l'événement"
+                      value={values.title}
                       onChange={handleChange}
-                      error={Boolean(touched.email && errors.email)}
-                      helperText={touched.email && errors.email}
+                      error={Boolean(touched.title && errors.title)}
+                      helperText={touched.title && errors.title}
                     />
                   </Grid>
 
-               
-
-                
-
-                  <Grid item sm={6} lg={12}>
+                  <Grid item sm={6} xs={12}>
                     <LightTextField
                       fullWidth
-                      name="zip"
-                      placeholder="Zip/Code"
-                      value={values.zip}
+                      name="description"
+                      placeholder="Description de l'événement"
+                      value={values.description}
                       onChange={handleChange}
-                      error={Boolean(touched.zip && errors.zip)}
-                      helperText={touched.zip && errors.zip}
+                      error={Boolean(touched.description && errors.description)}
+                      helperText={touched.description && errors.description}
                     />
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid item sm={6} xs={12}>
                     <LightTextField
-                      multiline
                       fullWidth
-                      rows={10}
-                      name="Description"
-                      placeholder="About"
-                      value={values.about}
+                      name="startDate"
+                      placeholder="Date de début"
+                      type="date"
+                      value={values.startDate}
                       onChange={handleChange}
-                      error={Boolean(touched.about && errors.about)}
-                      helperText={touched.about && errors.about}
-                      sx={{
-                        "& .MuiOutlinedInput-root textarea": { padding: 0 },
-                      }}
+                      error={Boolean(touched.startDate && errors.startDate)}
+                      helperText={touched.startDate && errors.startDate}
                     />
                   </Grid>
 
-                  <Grid item xs={12}>
-                    <Button type="submit" variant="contained" style={boutonStyle}>
-                      Créer un évènement
-                    </Button>
+                  <Grid item sm={6} xs={12}>
+                    <LightTextField
+                      fullWidth
+                      name="endDate"
+                      placeholder="Date de fin"
+                      type="date"
+                      value={values.endDate}
+                      onChange={handleChange}
+                      error={Boolean(touched.endDate && errors.endDate)}
+                      helperText={touched.endDate && errors.endDate}
+                    />
                   </Grid>
                 </Grid>
-              </form>
-            </Card>
+              </Card>
+
+              <Grid item xs={12} marginTop="2rem">
+                {loading ? (
+                  <LoadingButton loading variant="contained">
+                    Ajouter
+                  </LoadingButton>
+                ) : (
+                  <Button type="submit" variant="contained">
+                    Ajouter
+                  </Button>
+                )}
+              </Grid>
+            </form>
           </Grid>
-     
+        </Grid>
       </Card>
     </Box>
   );
 };
 
-export default AddNewEvents;
+// ... (reste du code)
+
+export default AddNewEvent;
