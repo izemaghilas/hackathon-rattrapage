@@ -10,6 +10,8 @@ import { ROLES } from "../../constants";
 import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
 import useTitle from "../../hooks/useTitle";
+import { CalendarViewMonth } from "@mui/icons-material";
+import CalendarView from "../../components/events/CalendarView";
 
 // styled component
 const StyledFlexBox = styled(FlexBox)(({ theme }) => ({
@@ -99,10 +101,11 @@ const EventList: FC = () => {
                     </Button>
                 </StyledFlexBox>
             )}
-            <CustomTable
+                        <CalendarView events={events} />
+            {/* <CustomTable
                 columnShape={EventListColumnShape}
                 data={filteredEvents}
-            />{" "}
+            />{" "} */}
             {/* Assurez-vous d'utiliser la colonne et la table correctes */}
         </Box>
     );
