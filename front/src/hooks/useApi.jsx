@@ -120,6 +120,14 @@ export default function useApi() {
         return apiClient.post("trainings", {...data}, token)
     }
 
+    function getQuizs() {
+        return apiClient.get("quiz", token)
+    }
+
+    function addAnswers(data) {
+        return apiClient.post("quiz/createUserQuiz", {...data}, token)
+    }
+
     return {
         login,
         getLoggedInUser,
@@ -137,5 +145,7 @@ export default function useApi() {
         getTrainings,
         getUserTrainings,
         addTraining,
+        getQuizs,
+        addAnswers,
     };
 }

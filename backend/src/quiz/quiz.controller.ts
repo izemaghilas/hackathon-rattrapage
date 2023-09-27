@@ -7,16 +7,16 @@ export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
   @Get()
-  findAll() {
-    return this.quizService.findAll();
+  async findAll() {
+    return await this.quizService.findAll();
   }
 
   @Post('createUserQuiz')
-  createUserQuiz(@Body() createQuizDto: CreateQuizDto) {
-    return this.quizService.createUserQuiz(createQuizDto);
+  async createUserQuiz(@Body() createQuizDto: CreateQuizDto) {
+    return await this.quizService.createUserQuiz(createQuizDto);
   }
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.quizService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.quizService.findOne(id);
   }
 }
