@@ -35,7 +35,7 @@ async function insertUsers(teams: Teams[]) {
       role: 'USER',
       firstname: 'Jack',
       lastname: 'Doe',
-      jobTitle: 'User',
+      jobTitle: 'Développeur vue',
       teamId: teams[0].id,
     },
   });
@@ -47,7 +47,7 @@ async function insertUsers(teams: Teams[]) {
       role: 'USER',
       firstname: faker.person.firstName(),
       lastname: faker.person.lastName(),
-      jobTitle: 'User',
+      jobTitle: 'Développeur nestjs',
       teamId: teams[0].id,
     },
   });
@@ -59,7 +59,7 @@ async function insertUsers(teams: Teams[]) {
       role: 'USER',
       firstname: faker.person.firstName(),
       lastname: faker.person.lastName(),
-      jobTitle: 'User',
+      jobTitle: 'Développeur react',
       teamId: teams[0].id,
     },
   });

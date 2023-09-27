@@ -52,6 +52,8 @@ export class UsersService {
       include: {
         team: true,
         skills: true,
+        Training: true,
+        Event: true,
       },
     });
   }

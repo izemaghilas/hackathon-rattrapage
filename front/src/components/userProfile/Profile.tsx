@@ -54,7 +54,7 @@ const Profile: FC = () => {
                   Formations suivies
                 </H6>
                 <H3 lineHeight={1} mt={0.6}>
-                  0
+                  {user?.Training?.length}
                 </H3>
               </Box>
             </FlexBox>
@@ -67,7 +67,7 @@ const Profile: FC = () => {
                   Evenement suivis
                 </H6>
                 <H3 lineHeight={1} mt={0.6}>
-                  0
+                  {user?.Event?.length}
                 </H3>
               </Box>
             </FlexBox>
@@ -110,7 +110,7 @@ const Profile: FC = () => {
           <Box padding={3}>
             <H4 fontWeight={600}>About</H4>
             <Small mt={1} display="block" lineHeight={1.9}>
-              Développeur react
+              {user?.jobTitle}
             </Small>
 
             <Box mt={3}>
