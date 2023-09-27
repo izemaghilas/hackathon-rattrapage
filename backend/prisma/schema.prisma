@@ -26,9 +26,9 @@ model User {
   Event          Event?     @relation(fields: [eventId], references: [id])
   eventId        String?
   Training       Training[]
-  UserQuiz       UserQuiz   @relation(fields: [userQuizId], references: [id])
-  userQuizId     String     @unique
-  quizCompleted  Boolean    @default(false)
+  UserQuiz       UserQuiz?  @relation(fields: [userQuizId], references: [id])
+  userQuizId     String?    @unique
+  quizCompleted  Boolean?   @default(false)
   Answer         Answer[]
 }
 
