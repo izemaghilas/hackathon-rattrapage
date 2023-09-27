@@ -1,10 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadGatewayException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { SkillType, Teams, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateUserDto } from './userDto/users.dto';
 import * as bcrypt from 'bcrypt';
 import { TeamsService } from 'src/teams/teams.service';
 import { UpdateUserDto } from './userDto/update-users.dto';
+import { UpdatePasswordDto } from './userDto/update-password.dto';
 
 @Injectable()
 export class UsersService {
@@ -43,6 +48,10 @@ export class UsersService {
     return this.prisma.user.findUnique({
       where: {
         id: id,
+      },
+      include: {
+        team: true,
+        skills: true,
       },
     });
   }
@@ -110,6 +119,37 @@ export class UsersService {
     const updatedUser = await this.prisma.user.update({
       where: { id },
       data: updateUserDto,
+    });
+    return updatedUser;
+  }
+
+  async updatePassword(
+    id: string,
+    updateDto: UpdatePasswordDto,
+  ): Promise<User | null> {
+    const { oldPassword, newPassword } = updateDto;
+
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isPasswordValid) {
+      throw new BadGatewayException('Password is not valid');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id },
+      data: {
+        password: hashedPassword,
+      },
     });
     return updatedUser;
   }

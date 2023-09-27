@@ -46,21 +46,7 @@ const PostCard: FC<PostCardProps> = ({ post, handleMore }) => {
     <Card sx={{ padding: 2, mb: 3 }}>
       <FlexBox justifyContent="space-between">
         <FlexBox alignItems="center">
-          <ImageWrapper>
-            <img
-              src="/static/user/user-10.png"
-              alt="User"
-              width="100%"
-              height="100%"
-            />
-          </ImageWrapper>
-
-          <Box marginLeft={1}>
-            <H5 lineHeight={1}>Martha Hawk</H5>
-            <Tiny fontWeight={500} color="text.disabled">
-              22 June 2020
-            </Tiny>
-          </Box>
+          <Avatar alt="User" src="" sx={{ width: 36, height: 36 }} />
         </FlexBox>
 
         <IconButton onClick={handleMore}>
@@ -91,11 +77,7 @@ const PostCard: FC<PostCardProps> = ({ post, handleMore }) => {
         </FlexBox>
 
         <FlexBox alignItems="center" py={1}>
-          <Avatar
-            alt="User"
-            src="/static/user/user-10.png"
-            sx={{ width: 36, height: 36 }}
-          />
+          <Avatar alt="User" src="" sx={{ width: 36, height: 36 }} />
 
           <InputBase
             placeholder="Write a comment"
@@ -125,19 +107,19 @@ const PostCard: FC<PostCardProps> = ({ post, handleMore }) => {
 const postDetails = [
   {
     Icon: Favorite,
-    count: 150,
+    count: 0,
   },
   {
     Icon: CommentIcon,
-    count: 15,
+    count: 0,
   },
   {
     Icon: UploadIcon,
-    count: 15,
+    count: 0,
   },
   {
     Icon: ShareIcon,
-    count: 12,
+    count: 0,
   },
 ];
 

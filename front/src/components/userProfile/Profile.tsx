@@ -7,6 +7,7 @@ import FollowerIcon from "../../icons/FollowerIcon";
 import UserPlusIcon from "../../icons/UserPlusIcon";
 import { FC, MouseEvent, useState } from "react";
 import PostCard from "./PostCard";
+import useAuth from "../../hooks/useAuth";
 
 // styled components
 const IconWrapper = styled(Box)<{ color?: string }>(({ theme, color }) => ({
@@ -31,6 +32,8 @@ const FollowWrapper = styled(Box)(() => ({
 }));
 
 const Profile: FC = () => {
+  const { user } = useAuth();
+
   const [moreEl, setMoreEl] = useState<null | HTMLElement>(null);
   const handleMoreOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setMoreEl(event.currentTarget);
@@ -39,7 +42,7 @@ const Profile: FC = () => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item md={5} xs={12}>
+      <Grid item md={12} xs={12}>
         <Card>
           <FollowWrapper>
             <FlexBox alignItems="center">
@@ -48,10 +51,10 @@ const Profile: FC = () => {
               </IconWrapper>
               <Box marginLeft={1.5}>
                 <H6 color="text.disabled" lineHeight={1}>
-                  Following
+                  Formations suivies
                 </H6>
                 <H3 lineHeight={1} mt={0.6}>
-                  93,675
+                  0
                 </H3>
               </Box>
             </FlexBox>
@@ -61,22 +64,53 @@ const Profile: FC = () => {
               </IconWrapper>
               <Box marginLeft={1.5}>
                 <H6 color="text.disabled" lineHeight={1}>
-                  Followers
+                  Evenement suivis
                 </H6>
                 <H3 lineHeight={1} mt={0.6}>
-                  82,469
+                  0
                 </H3>
               </Box>
             </FlexBox>
           </FollowWrapper>
-
+          <Divider />
+          <div
+            style={{
+              padding: "1rem",
+            }}
+          >
+            <H3 padding={1} fontWeight={600}>
+              Les Skills
+            </H3>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "1rem",
+              }}
+            >
+              {user?.skills?.map((skill: any) => (
+                <div
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Box padding={1} key={skill.id}>
+                    <H4 fontWeight={600}>{skill.name}</H4>
+                    <Small mt={1} display="block" lineHeight={1}>
+                      {skill.type}
+                    </Small>
+                  </Box>
+                </div>
+              ))}
+            </div>
+          </div>
           <Divider />
 
           <Box padding={3}>
             <H4 fontWeight={600}>About</H4>
             <Small mt={1} display="block" lineHeight={1.9}>
-              Tart I love sugar plum I love oat cake. Sweet roll caramels I love
-              jujubes. Topping cake wafer..
+              Développeur react
             </Small>
 
             <Box mt={3}>
@@ -92,14 +126,6 @@ const Profile: FC = () => {
           </Box>
         </Card>
       </Grid>
-
-      <Grid item md={7} xs={12}>
-        {postList.map((post) => (
-          <PostCard post={post} key={post.id} handleMore={handleMoreOpen} />
-        ))}
-
-        <MoreOptions anchorEl={moreEl} handleMoreClose={handleMoreClose} />
-      </Grid>
     </Grid>
   );
 };
@@ -107,35 +133,30 @@ const Profile: FC = () => {
 const details = [
   {
     Icon: Place,
-    boldText: "Kuwait",
-    smallText: "Lives at",
+    boldText: "France",
+    smallText: "",
   },
   {
-    Icon: Mail,
+    Icon: BusinessCenter,
     boldText: "",
-    smallText: "Lenore_Rosenbaum@gmail.com",
+    smallText: "5IWJ",
   },
   {
     Icon: BusinessCenter,
-    boldText: "UI_LIB",
-    smallText: "Manager at",
-  },
-  {
-    Icon: BusinessCenter,
-    smallText: "Studied at",
-    boldText: "Corwin - Blick",
+    boldText: "",
+    smallText: "5IWJ",
   },
 ];
 
 const postList = [
   {
     id: 1,
-    postTitle: "Coffee and Afternoon",
-    postImage: "/static/post-image/post-1.png",
+    postTitle: "Bonjour",
+    postImage: "",
   },
   {
     id: 2,
-    postTitle: "Coffee and Afternoon",
+    postTitle: "Test",
     postImage: "",
   },
 ];

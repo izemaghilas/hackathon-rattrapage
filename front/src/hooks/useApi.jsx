@@ -3,149 +3,155 @@ import { useEffect, useState } from "react";
 import useAuth from "./useAuth";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000',
+  baseURL: "http://localhost:8000",
 });
 
 function getRequestHeaders(token = null, withBody = false) {
-    return {
-        "Content-Type": withBody ? "application/json" : undefined,
-        Authorization: token != null ? `Bearer ${token}` : undefined,
-    };
+  return {
+    "Content-Type": withBody ? "application/json" : undefined,
+    Authorization: token != null ? `Bearer ${token}` : undefined,
+  };
 }
 
 const apiClient = {
-    get: function (url, token = null) {
-        return axiosInstance.get(url, {
-            headers: getRequestHeaders(token),
-        });
-    },
-    post: function (url, data = null, token = null) {
-        return axiosInstance.post(url, data, {
-            headers: getRequestHeaders(token, data != null),
-        });
-    },
-    put: function (url, data = null, token = null) {
-        return axiosInstance.put(url, data, {
-            headers: getRequestHeaders(token, data != null),
-        });
-    },
-    patch: function (url, data = null, token = null) {
-        return axiosInstance.patch(url, data, {
-            headers: getRequestHeaders(token, data != null),
-        });
-    },
-    delete: function (url, token = null) {
-        return axiosInstance.delete(url, {
-            headers: getRequestHeaders(token),
-        });
-    },
+  get: function (url, token = null) {
+    return axiosInstance.get(url, {
+      headers: getRequestHeaders(token),
+    });
+  },
+  post: function (url, data = null, token = null) {
+    return axiosInstance.post(url, data, {
+      headers: getRequestHeaders(token, data != null),
+    });
+  },
+  put: function (url, data = null, token = null) {
+    return axiosInstance.put(url, data, {
+      headers: getRequestHeaders(token, data != null),
+    });
+  },
+  patch: function (url, data = null, token = null) {
+    return axiosInstance.patch(url, data, {
+      headers: getRequestHeaders(token, data != null),
+    });
+  },
+  delete: function (url, token = null) {
+    return axiosInstance.delete(url, {
+      headers: getRequestHeaders(token),
+    });
+  },
 };
 
 export default function useApi() {
-    const { user } = useAuth();
-    const [token, setToken] = useState(() => localStorage.getItem("accessToken"));
+  const { user } = useAuth();
+  const [token, setToken] = useState(() => localStorage.getItem("accessToken"));
 
-    useEffect(() => {
-        setToken(localStorage.getItem("accessToken"));
-    }, [user]);
+  useEffect(() => {
+    setToken(localStorage.getItem("accessToken"));
+  }, [user]);
 
-    function login(email, password) {
-        return apiClient.post("auth/login", { email, password }, token);
-    }
+  function login(email, password) {
+    return apiClient.post("auth/login", { email, password }, token);
+  }
 
-    function getLoggedInUser(id, accessToken = null) {
-        return apiClient.get(`users/${id}`, accessToken ?? token);
-    }
+  function getLoggedInUser(id, accessToken = null) {
+    return apiClient.get(`users/${id}`, accessToken ?? token);
+  }
 
-    function getUsers(selectedFilter, searchInput) {
-        return apiClient.get(
-            `users?skill=${selectedFilter ?? ""}&search=${searchInput ?? ""}`,
-            token
-        );
-    }
+  function getUsers(selectedFilter, searchInput) {
+    return apiClient.get(
+      `users?skill=${selectedFilter ?? ""}&search=${searchInput ?? ""}`,
+      token
+    );
+  }
 
-    function getUsersOnly(selectedFilter, searchInput) {
-        return apiClient.get(
-            `users/users-only?skill=${selectedFilter ?? ""}&search=${searchInput ?? ""}`,
-            token
-        );
-    }
+  function getUsersOnly(selectedFilter, searchInput) {
+    return apiClient.get(
+      `users/users-only?skill=${selectedFilter ?? ""}&search=${
+        searchInput ?? ""
+      }`,
+      token
+    );
+  }
 
-    function getUser(id) {
-        return apiClient.get(`users/${id}`, token);
-    }
+  function getUser(id) {
+    return apiClient.get(`users/${id}`, token);
+  }
 
-    function addUser(user) {
-        return apiClient.post("users", { ...user }, token);
-    }
+  function addUser(user) {
+    return apiClient.post("users", { ...user }, token);
+  }
 
-    function updateUser(id, data) {
-        return apiClient.patch(`users/${id}`, { ...data }, token);
-    }
+  function updatePassword(id, data) {
+    console.log(data);
+    return apiClient.patch(`users/updatePassword/${id}`, { ...data }, token);
+  }
 
-    function deleteUser(id) {
-        return apiClient.delete(`users/${id}`, token);
-    }
+  function updateUser(id, data) {
+    return apiClient.patch(`users/${id}`, { ...data }, token);
+  }
 
-    function getSkills() {
-        return apiClient.get(`skills`, token);
-    }
+  function deleteUser(id) {
+    return apiClient.delete(`users/${id}`, token);
+  }
 
-    // Events
-    function getEvents() {
-        return apiClient.get(`events`, token);
-    }
+  function getSkills() {
+    return apiClient.get(`skills`, token);
+  }
 
-    function addEvent(event) {
-        return apiClient.post("events", { ...event }, token);
-    }
+  // Events
+  function getEvents() {
+    return apiClient.get(`events`, token);
+  }
 
-    function updateEvent(id, data) {
-        return apiClient.patch(`events/${id}`, { ...data }, token);
-    }
+  function addEvent(event) {
+    return apiClient.post("events", { ...event }, token);
+  }
 
-    function deleteEvent(id) {
-        return apiClient.delete(`events/${id}`, token);
-    }
+  function updateEvent(id, data) {
+    return apiClient.patch(`events/${id}`, { ...data }, token);
+  }
 
-    function getTrainings() {
-        return apiClient.get("trainings", token)
-    }
+  function deleteEvent(id) {
+    return apiClient.delete(`events/${id}`, token);
+  }
 
-    function getUserTrainings() {
-        return apiClient.get("trainings/users/current", token)
-    }
+  function getTrainings() {
+    return apiClient.get("trainings", token);
+  }
 
-    function addTraining(data) {
-        return apiClient.post("trainings", {...data}, token)
-    }
+  function getUserTrainings() {
+    return apiClient.get("trainings/users/current", token);
+  }
 
-    function getQuizs() {
-        return apiClient.get("quiz", token)
-    }
+  function getQuizs() {
+    return apiClient.get("quiz", token);
+  }
 
-    function addAnswers(data) {
-        return apiClient.post("quiz/createUserQuiz", {...data}, token)
-    }
+  function addAnswers(data) {
+    return apiClient.post("quiz/createUserQuiz", { ...data }, token);
+  }
 
-    return {
-        login,
-        getLoggedInUser,
-        getUsers,
-        getUsersOnly,
-        getUser,
-        addUser,
-        updateUser,
-        deleteUser,
-        getSkills,
-        getEvents,
-        addEvent,
-        updateEvent,
-        deleteEvent,
-        getTrainings,
-        getUserTrainings,
-        addTraining,
-        getQuizs,
-        addAnswers,
-    };
+  return {
+    login,
+    getLoggedInUser,
+    getUsers,
+    getUsersOnly,
+    getUser,
+    addUser,
+    updateUser,
+    deleteUser,
+    getSkills,
+    getEvents,
+    addEvent,
+    updateEvent,
+    deleteEvent,
+    getTrainings,
+    getUserTrainings,
+    addTraining,
+    getQuizs,
+    addAnswers,
+  };
+  function addTraining(data) {
+    return apiClient.post("trainings", { ...data }, token);
+  }
 }

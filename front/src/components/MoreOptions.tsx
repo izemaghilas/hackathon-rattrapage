@@ -24,14 +24,14 @@ const MoreOptions: FC<MoreOptionsProps> = ({ anchorEl, handleMoreClose }) => {
         sx={{ "&:hover": { color: "primary.main" } }}
       >
         <PencilIcon sx={{ fontSize: 14, marginRight: 1 }} />
-        <Small fontWeight={500}>Edit</Small>
+        <Small fontWeight={500}>Modifier</Small>
       </MenuItem>
       <MenuItem
         onClick={handleMoreClose}
         sx={{ "&:hover": { color: "primary.main" } }}
       >
         <DeleteIcon sx={{ fontSize: 14, marginRight: 1 }} />
-        <Small fontWeight={500}>Remove</Small>
+        <Small fontWeight={500}>Supprimer</Small>
       </MenuItem>
     </Menu>
   );

@@ -24,6 +24,7 @@ import { Entities } from 'src/entity.enum';
 import { UserRole } from './userRole.enum';
 import { UpdateUserDto } from './userDto/update-users.dto';
 import { LoggedInUser } from 'src/loggedin-user.decorator';
+import { UpdatePasswordDto } from './userDto/update-password.dto';
 
 @Controller('users')
 @UseInterceptors(UsersInterceptor)
@@ -70,6 +71,16 @@ export class UsersController {
     @Body(ValidationPipe) updateUser: UpdateUserDto,
   ): Promise<User | null> {
     return this.userService.updateUser(id, updateUser);
+  }
+
+  @Patch('updatePassword/:id')
+  @UseGuards(OwnerOrAdminGuard)
+  @IsOwnerOrAdmin(Entities.USER)
+  async updatePassword(
+    @Param('id') id: string,
+    @Body(ValidationPipe) update: UpdatePasswordDto,
+  ): Promise<User | null> {
+    return this.userService.updatePassword(id, update);
   }
 
   @Delete(':id')

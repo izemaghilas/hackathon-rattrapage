@@ -1,5 +1,5 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Card, Grid, styled, Tab } from "@mui/material";
+import { Box, Button, Card, Grid, styled, Tab, TextField } from "@mui/material";
 import FlexBox from "../components/FlexBox";
 import SearchInput from "../components/SearchInput";
 import { H3, Small } from "../components/Typography";
@@ -11,6 +11,8 @@ import Profile from "../components/userProfile/Profile";
 import useAuth from "../hooks/useAuth";
 import useTitle from "../hooks/useTitle";
 import { FC, SyntheticEvent, useState } from "react";
+import useApi from "../hooks/useApi";
+import toast from "react-hot-toast";
 
 // styled components
 const StyledCard = styled(Card)(() => ({
@@ -61,6 +63,55 @@ const UserProfile: FC = () => {
     setValue(newValue);
   };
 
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const api = useApi();
+
+  const changePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      setError("Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setError("Le mot de passe doit contenir au moins 8 caractères");
+      return;
+    }
+
+    if (newPassword === oldPassword) {
+      setError("Le nouveau mot de passe doit être différent de l'ancien");
+      return;
+    }
+
+    let res;
+
+    try {
+      res = await api
+        .updatePassword(user?.id, {
+          oldPassword,
+          newPassword,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            setError("");
+            setOldPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
+            toast.success("Mot de passe modifié avec succès");
+          } else {
+            setError("L'ancien mot de passe est incorrect");
+          }
+        });
+    } catch (e) {
+      setError("L'ancien mot de passe est incorrect");
+    }
+
+    console.log(res);
+  };
   return (
     <Box pt={2} pb={4}>
       <TabContext value={value}>
@@ -94,15 +145,15 @@ const UserProfile: FC = () => {
 
               <Box marginLeft={3} marginTop={3}>
                 <H3 lineHeight={1.2}>{user?.name}</H3>
-                <Small color="text.disabled">UI Designer</Small>
+                <Small color="text.disabled">{user?.firstname}</Small>
               </Box>
             </ContentWrapper>
 
             <StyledTabList onChange={handleChange}>
               <StyledTab label="Profile" value="1" />
-              <StyledTab label="Follower" value="2" />
-              <StyledTab label="Friends" value="3" />
-              <StyledTab label="Gallery" value="4" />
+              <StyledTab label="Paramètres" value="2" />
+              <StyledTab label="                " value="3" />
+              <StyledTab label="                " value="4" />
             </StyledTabList>
           </FlexBox>
         </StyledCard>
@@ -114,193 +165,53 @@ const UserProfile: FC = () => {
 
           <StyledTabPanel value="2">
             <Grid container spacing={3}>
-              {followers.map((item, index) => (
-                <Grid item lg={4} sm={6} xs={12} key={index}>
-                  <FollowerCard follower={item} />
+              <Grid item xs={12} md={12}>
+                <TextField
+                  fullWidth
+                  value={oldPassword}
+                  label="L'ancien mot de passe"
+                  type="password"
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <TextField
+                  fullWidth
+                  value={newPassword}
+                  label="Nouveau mot de passe"
+                  type="password"
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <TextField
+                  fullWidth
+                  value={confirmPassword}
+                  label="Confirmer le nouveau mot de passe"
+                  type="password"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </Grid>
+              {error && (
+                <Grid item xs={12} md={12}>
+                  <Small color="error.main">{error}</Small>
                 </Grid>
-              ))}
+              )}
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={changePassword}
+                >
+                  Sauvegarder
+                </Button>
+              </Grid>
             </Grid>
-          </StyledTabPanel>
-
-          <StyledTabPanel value="3">
-            <H3>Friends</H3>
-            <SearchInput placeholder="Search Friends..." sx={{ my: 2 }} />
-
-            <Grid container spacing={3}>
-              {friends.map((friend, index) => (
-                <Grid item lg={4} sm={6} xs={12} key={index}>
-                  <FriendCard friend={friend} />
-                </Grid>
-              ))}
-            </Grid>
-          </StyledTabPanel>
-
-          <StyledTabPanel value="4">
-            <Gallery />
           </StyledTabPanel>
         </Box>
       </TabContext>
     </Box>
   );
 };
-
-const followers = [
-  {
-    image: "/static/avatar/040-man-11.svg",
-    name: "Mr. Breast",
-    profession: "Product Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/041-woman-11.svg",
-    name: "Ethan Drake",
-    profession: "UI Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/042-vampire.svg",
-    name: "Selena Gomez",
-    profession: "Marketing Manager",
-    following: false,
-  },
-  {
-    image: "/static/avatar/043-chef.svg",
-    name: "Sally Becker",
-    profession: "UI Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/044-farmer.svg",
-    name: "Dua Lipa",
-    profession: "Marketing Manager",
-    following: false,
-  },
-  {
-    image: "/static/avatar/045-man-12.svg",
-    name: "Joe Murry",
-    profession: "Product Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/040-man-11.svg",
-    name: "Mr. Breast",
-    profession: "Product Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/041-woman-11.svg",
-    name: "Ethan Drake",
-    profession: "UI Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/042-vampire.svg",
-    name: "Selena Gomez",
-    profession: "Marketing Manager",
-    following: false,
-  },
-  {
-    image: "/static/avatar/043-chef.svg",
-    name: "Sally Becker",
-    profession: "UI Designer",
-    following: true,
-  },
-  {
-    image: "/static/avatar/044-farmer.svg",
-    name: "Dua Lipa",
-    profession: "Marketing Manager",
-    following: false,
-  },
-  {
-    image: "/static/avatar/045-man-12.svg",
-    name: "Joe Murry",
-    profession: "Product Designer",
-    following: true,
-  },
-];
-
-const friends = [
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-  {
-    name: "Selena Gomez",
-    image: "/static/avatar/012-woman-2.svg",
-    profession: "Marketing Manager",
-    facebookUrl: "",
-    twitterUrl: "",
-    instagramUrl: "",
-    dribbleUrl: "",
-  },
-];
 
 export default UserProfile;
