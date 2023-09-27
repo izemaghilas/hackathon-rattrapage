@@ -175,11 +175,51 @@ async function insertTeams() {
   return [team1, team2];
 }
 
+async function insertQuiz() {
+  await prisma.quiz.create({
+    data: {
+      title: '',
+      questions: {
+        createMany: {
+          data: [
+            {
+              text: 'Quel langage de programmation ou quelle technologie spécifique souhaitez-vous apprendre en priorité ?',
+            },
+            {
+              text: 'Actuellement, quel langage de programmation ou quelle technologie vous intéresse le plus et pourquoi ?',
+            },
+            {
+              text: "Quels langages de programmation maîtrisez-vous actuellement et à quel niveau de compétence vous situez-vous dans chacun d'eux ?",
+            },
+            {
+              text: 'Avez-vous des projets ou des objectifs spécifiques en tête pour lesquels vous aimeriez utiliser un langage de programmation particulier ?',
+            },
+            {
+              text: "Quels sont les domaines d'application ou les industries qui vous intéressent le plus en tant que développeur, et quelles compétences techniques pensez-vous avoir besoin pour y réussir ?",
+            },
+            {
+              text: 'Pouvez-vous identifier des défis ou des obstacles spécifiques que vous avez rencontrés dans votre travail de développement en raison de vos compétences actuelles en programmation ?',
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  // eslint-disable-next-line no-console
+  console.log('quiz inserted');
+}
+
 async function resetDB() {
   await prisma.skill.deleteMany({});
+  await prisma.training.deleteMany({});
+  await prisma.userQuiz.deleteMany({});
+  await prisma.question.deleteMany({});
+  await prisma.answer.deleteMany({});
   await prisma.user.deleteMany({});
   await prisma.event.deleteMany({});
   await prisma.teams.deleteMany({});
+  await prisma.quiz.deleteMany({});
 
   // eslint-disable-next-line no-console
   console.log('database reset');
@@ -192,6 +232,7 @@ async function main() {
   const users = await insertUsers(teams);
   await InsertSkills(users);
   await insertEvents();
+  await insertQuiz();
 }
 
 main()
