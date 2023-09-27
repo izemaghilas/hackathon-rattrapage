@@ -23,8 +23,7 @@ model User {
   jobTitle       String
   team           Teams?     @relation(fields: [teamId], references: [id])
   teamId         String?
-  Event          Event?     @relation(fields: [eventId], references: [id])
-  eventId        String?
+  Event          Event[]
   Training       Training[]
   UserQuiz       UserQuiz?  @relation(fields: [userQuizId], references: [id])
   userQuizId     String?    @unique
