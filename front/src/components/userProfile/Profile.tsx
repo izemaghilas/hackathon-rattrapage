@@ -7,6 +7,7 @@ import FollowerIcon from "../../icons/FollowerIcon";
 import UserPlusIcon from "../../icons/UserPlusIcon";
 import { FC, MouseEvent, useState } from "react";
 import PostCard from "./PostCard";
+import useAuth from "../../hooks/useAuth";
 
 // styled components
 const IconWrapper = styled(Box)<{ color?: string }>(({ theme, color }) => ({
@@ -31,6 +32,8 @@ const FollowWrapper = styled(Box)(() => ({
 }));
 
 const Profile: FC = () => {
+  const { user } = useAuth();
+
   const [moreEl, setMoreEl] = useState<null | HTMLElement>(null);
   const handleMoreOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setMoreEl(event.currentTarget);
@@ -51,7 +54,7 @@ const Profile: FC = () => {
                   Formations suivies
                 </H6>
                 <H3 lineHeight={1} mt={0.6}>
-                  2
+                  0
                 </H3>
               </Box>
             </FlexBox>
@@ -64,12 +67,44 @@ const Profile: FC = () => {
                   Evenement suivis
                 </H6>
                 <H3 lineHeight={1} mt={0.6}>
-                  5
+                  0
                 </H3>
               </Box>
             </FlexBox>
           </FollowWrapper>
-
+          <Divider />
+          <div
+            style={{
+              padding: "1rem",
+            }}
+          >
+            <H3 padding={1} fontWeight={600}>
+              Les Skills
+            </H3>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "1rem",
+              }}
+            >
+              {user?.skills?.map((skill: any) => (
+                <div
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Box padding={1} key={skill.id}>
+                    <H4 fontWeight={600}>{skill.name}</H4>
+                    <Small mt={1} display="block" lineHeight={1}>
+                      {skill.type}
+                    </Small>
+                  </Box>
+                </div>
+              ))}
+            </div>
+          </div>
           <Divider />
 
           <Box padding={3}>

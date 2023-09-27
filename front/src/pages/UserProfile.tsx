@@ -11,6 +11,8 @@ import Profile from "../components/userProfile/Profile";
 import useAuth from "../hooks/useAuth";
 import useTitle from "../hooks/useTitle";
 import { FC, SyntheticEvent, useState } from "react";
+import useApi from "../hooks/useApi";
+import toast from "react-hot-toast";
 
 // styled components
 const StyledCard = styled(Card)(() => ({
@@ -61,6 +63,55 @@ const UserProfile: FC = () => {
     setValue(newValue);
   };
 
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const api = useApi();
+
+  const changePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      setError("Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setError("Le mot de passe doit contenir au moins 8 caractères");
+      return;
+    }
+
+    if (newPassword === oldPassword) {
+      setError("Le nouveau mot de passe doit être différent de l'ancien");
+      return;
+    }
+
+    let res;
+
+    try {
+      res = await api
+        .updatePassword(user?.id, {
+          oldPassword,
+          newPassword,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            setError("");
+            setOldPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
+            toast.success("Mot de passe modifié avec succès");
+          } else {
+            setError("L'ancien mot de passe est incorrect");
+          }
+        });
+    } catch (e) {
+      setError("L'ancien mot de passe est incorrect");
+    }
+
+    console.log(res);
+  };
   return (
     <Box pt={2} pb={4}>
       <TabContext value={value}>
@@ -101,6 +152,8 @@ const UserProfile: FC = () => {
             <StyledTabList onChange={handleChange}>
               <StyledTab label="Profile" value="1" />
               <StyledTab label="Paramètres" value="2" />
+              <StyledTab label="                " value="3" />
+              <StyledTab label="                " value="4" />
             </StyledTabList>
           </FlexBox>
         </StyledCard>
@@ -115,29 +168,41 @@ const UserProfile: FC = () => {
               <Grid item xs={12} md={12}>
                 <TextField
                   fullWidth
+                  value={oldPassword}
                   label="L'ancien mot de passe"
                   type="password"
-                  defaultValue=""
+                  onChange={(e) => setOldPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={12}>
                 <TextField
                   fullWidth
+                  value={newPassword}
                   label="Nouveau mot de passe"
                   type="password"
-                  defaultValue=""
+                  onChange={(e) => setNewPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={12}>
                 <TextField
                   fullWidth
+                  value={confirmPassword}
                   label="Confirmer le nouveau mot de passe"
                   type="password"
-                  defaultValue=""
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </Grid>
+              {error && (
+                <Grid item xs={12} md={12}>
+                  <Small color="error.main">{error}</Small>
+                </Grid>
+              )}
               <Grid item xs={12}>
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={changePassword}
+                >
                   Sauvegarder
                 </Button>
               </Grid>
