@@ -82,7 +82,6 @@ export default function useApi() {
   }
 
   function updatePassword(id, data) {
-    console.log(data);
     return apiClient.patch(`users/updatePassword/${id}`, { ...data }, token);
   }
 
@@ -139,6 +138,7 @@ export default function useApi() {
     getUser,
     addUser,
     updateUser,
+    updatePassword,
     deleteUser,
     getSkills,
     getEvents,
