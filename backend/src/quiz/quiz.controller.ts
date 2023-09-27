@@ -6,6 +6,11 @@ import { CreateQuizDto } from './dto/create-quiz.dto';
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
+  @Get('quizByUser/:id')
+  async findQuizUser(@Param('id') id: string) {
+    return await this.quizService.findAllUserQuiz(id);
+  }
+
   @Get()
   async findAll() {
     return await this.quizService.findAll();

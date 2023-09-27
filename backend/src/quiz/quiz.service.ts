@@ -14,6 +14,25 @@ export class QuizService {
     });
   }
 
+  async findAllUserQuiz(userId: string) {
+    return await this.prisma.userQuiz.findFirst({
+      where: {
+        userId: userId,
+      },
+      include: {
+        quiz: {
+          include: {
+            questions: {
+              include: {
+                answer: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
   async findOne(id: string) {
     return await this.prisma.quiz.findUnique({
       where: {
