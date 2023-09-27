@@ -38,6 +38,10 @@ const AddNewUser = Loadable(
   lazy(() => import("./pages/userManagement/AddNewUser"))
 );
 
+const UserQuiz = Loadable(
+  lazy(() => import("./pages/quiz/QuizList"))
+);
+
 const AddNewEvents = Loadable(
   lazy(() => import("./pages/events/AddNewEvents"))
   
@@ -115,6 +119,10 @@ const routes = [
         path: "add-training",
         element: <AddNewTraining />,
       },
+      {
+        path: "user-quizz/:id",
+        element: <UserQuiz />,
+      }
     ],
   },
   {
