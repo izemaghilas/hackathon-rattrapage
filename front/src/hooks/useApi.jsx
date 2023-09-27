@@ -113,6 +113,9 @@ export default function useApi() {
   function deleteEvent(id) {
     return apiClient.delete(`events/${id}`, token);
   }
+  function joinEvent(data) {
+    return apiClient.post(`events/joinEvent`, { ...data }, token);
+  }
 
   function getTrainings() {
     return apiClient.get("trainings", token);
@@ -120,6 +123,9 @@ export default function useApi() {
 
   function getUserTrainings() {
     return apiClient.get("trainings/users/current", token);
+  }
+  function addTraining(data) {
+    return apiClient.post("trainings", { ...data }, token);
   }
 
   function getQuizs() {
@@ -150,8 +156,6 @@ export default function useApi() {
     addTraining,
     getQuizs,
     addAnswers,
+    joinEvent,
   };
-  function addTraining(data) {
-    return apiClient.post("trainings", { ...data }, token);
-  }
 }

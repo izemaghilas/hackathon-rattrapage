@@ -101,7 +101,7 @@ const EventList: FC = () => {
                     </Button>
                 </StyledFlexBox>
             )}
-                        <CalendarView events={events} />
+            <CalendarView events={events} />
             {/* <CustomTable
                 columnShape={EventListColumnShape}
                 data={filteredEvents}

@@ -121,7 +121,7 @@ const AddNewEvent: FC = () => {
                       fullWidth
                       name="startDate"
                       placeholder="Date de début"
-                      type="date"
+                      type="datetime-local"
                       value={values.startDate}
                       onChange={handleChange}
                       error={Boolean(touched.startDate && errors.startDate)}
@@ -134,7 +134,7 @@ const AddNewEvent: FC = () => {
                       fullWidth
                       name="endDate"
                       placeholder="Date de fin"
-                      type="date"
+                      type="datetime-local"
                       value={values.endDate}
                       onChange={handleChange}
                       error={Boolean(touched.endDate && errors.endDate)}
