@@ -136,6 +136,10 @@ export default function useApi() {
     return apiClient.post("quiz/createUserQuiz", { ...data }, token);
   }
 
+  function getUserQuiz(id) {
+    return apiClient.get("quiz/quizByUser/"+id, token)
+  }
+
   return {
     login,
     getLoggedInUser,
@@ -157,5 +161,6 @@ export default function useApi() {
     getQuizs,
     addAnswers,
     joinEvent,
+    getUserQuiz,
   };
 }
