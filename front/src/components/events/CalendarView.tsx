@@ -20,25 +20,27 @@ const CalendarView = ({ events }: any) => {
 
     const EventDetails = () => {
         return (
-            <Card sx={{ minWidth: 275, maxWidth: 100 }}>
-                <CardContent>
-                    <Typography variant="h5" component="div">
-                        {clickedEvent.title}
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="gray">
-                        {clickedEvent.description}
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.primary">
-                        Start: {new Date(clickedEvent.startDate).toLocaleString('fr-FR', { timeZone: 'UTC' })}
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.primary">
-                        End: {new Date(clickedEvent.endDate).toLocaleString('fr-FR', { timeZone: 'UTC' })}
-                    </Typography>
-                </CardContent>
-                {/* <CardActions>
+            <div style={{ display:'flex', justifyContent:'center', marginTop: 15 }}>
+                <Card sx={{ minWidth: 275, width: 450 }}>
+                    <CardContent>
+                        <Typography variant="h5" component="div">
+                            {clickedEvent.title}
+                        </Typography>
+                        <Typography sx={{ mb: 1.5 }} color="gray">
+                            {clickedEvent.description}
+                        </Typography>
+                        <Typography sx={{ mb: 1.5 }} color="text.primary">
+                            Début : {new Date(clickedEvent.startDate).toLocaleString('fr-FR', { timeZone: 'UTC' })}
+                        </Typography>
+                        <Typography sx={{ mb: 1.5 }} color="text.primary">
+                            Fin : {new Date(clickedEvent.endDate).toLocaleString('fr-FR', { timeZone: 'UTC' })}
+                        </Typography>
+                    </CardContent>
+                    {/* <CardActions>
                     <Button size="small">Learn More</Button>
                 </CardActions> */}
-            </Card>
+                </Card>
+            </div>
         );
     }
 
@@ -49,7 +51,8 @@ const CalendarView = ({ events }: any) => {
                 initialView="dayGridMonth"
                 events={calendarEvents}
                 locale={"fr"}
-                height={600}
+                height={550}
+                aspectRatio={1.5}
                 buttonText={{
                     today: "Aujourd'hui",
                     month: "Mois",

@@ -62,21 +62,21 @@ const EventList: FC = () => {
         setFilteredEvents(filteredEvents);
     };
 
-    const handleDeleteEvent = (eventId: string) => {
-        api.deleteEvent(eventId)
-            .then(() => {
-                setEvents((prevEvents) =>
-                    prevEvents.filter((event) => event.id !== eventId)
-                );
-                setFilteredEvents((prevFilteredEvents) =>
-                    prevFilteredEvents.filter((event) => event.id !== eventId)
-                );
-                toast.success("Événement supprimé avec succès");
-            })
-            .catch((error) => {
-                toast.error("Erreur lors de la suppression de l'événement");
-            });
-    };
+    // const handleDeleteEvent = (eventId: string) => {
+    //     api.deleteEvent(eventId)
+    //         .then(() => {
+    //             setEvents((prevEvents) =>
+    //                 prevEvents.filter((event) => event.id !== eventId)
+    //             );
+    //             setFilteredEvents((prevFilteredEvents) =>
+    //                 prevFilteredEvents.filter((event) => event.id !== eventId)
+    //             );
+    //             toast.success("Événement supprimé avec succès");
+    //         })
+    //         .catch((error) => {
+    //             toast.error("Erreur lors de la suppression de l'événement");
+    //         });
+    // };
 
     return (
         <Box pt={2} pb={4}>
